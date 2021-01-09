@@ -10,7 +10,7 @@ Install python virtual environment:
 $ python -m venv env
 ```
 
-Run the python virtual environment:
+Run the python virtual environment (Be aware of using `\` or `/` depending on your OS):
 ```bash
 $ env\Scripts\activate
 ```
