@@ -25,7 +25,7 @@ Navigate to the `app` directory:
 $ cd app
 ```
 
-Run the server:
+Run the server (pass `runserver` to `manage.py` as a command line argument):
 ```bash
 $ python manage.py runserver
 ```
