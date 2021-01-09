@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Register</title>
+</head>
+
+<style>
+    body {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    form {
+        background-color: lightblue;
+        padding: 2em;
+        border-radius: 1em;
+    }
+
+    .my-flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<body class="my-flex">
+    <div class="registerContainer col-md-10">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputUsername1" class="form-label">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                {{ form.email }}
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                {{ form.password1 }}
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword2" class="form-label">Confirm password</label>
+                {{ form.password2 }}
+            </div>
+            <div class="my-flex">
+                <input type="submit" value="Register Account" class="btn btn-primary">
+            </div>
+        </form>
+        {{ form.errors }}
+        <div class="my-flex justify-content-center links">
+            <p>Don't have an account? Log in <a href="{% url 'login' %}">here</a>.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+    <script>
+        var form_input_fields = document.getElementsByTagName('input')
+        form_input_fields[1].placeholder='Username...'
+        form_input_fields[2].placeholder='Email...'
+        form_input_fields[3].placeholder='Enter password...'
+        form_input_fields[4].placeholder='Re-enter password...'
+
+        for (let i = 1; i < form_input_fields.length - 1; i++) {
+            form_input_fields[i].setAttribute('class', 'form-control')
+        }
+    </script>
+</body>
+
+</html>
