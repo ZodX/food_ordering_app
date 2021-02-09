@@ -1,0 +1,15 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+    <p>{{ request.user.id }}</p>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+    {% if restaurant.id != null %}
+        <a class="btn btn-danger" href="{% url 'delete_restaurant' restaurant.id %}">Delete {{restaurant.id}}</a>
+    {% endif %}
+{% endblock %}

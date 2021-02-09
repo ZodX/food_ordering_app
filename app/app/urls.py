@@ -16,15 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from authentication.views import loginPage, registerPage, homePage, logoutUser, userPage, adminPage
+from authentication.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', loginPage, name="login"),
     path('register/', registerPage, name="register"),
+    path('registerRestaurant/', registerRestaurantPage, name='registerRestaurant'),
     path('home/', homePage, name="home"),
     path('logout/', logoutUser, name="logout"),
     path('user/', userPage, name='user'),
     path('adminPage/', adminPage, name='admin'),
+    path('restaurant/<str:pk>/', restaurantPage, name='restaurant'),
+    path('delete_restaurant/<str:pk>/', deleteRestaurant, name='delete_restaurant'),
+    path('restaurant_detail/<str:pk>', restaurantDetailPage, name='restaurant_detail'),
+    path('add_food/<str:pk>', addFoodPage, name='add_food_form'),
+    path('modify_food/<str:pk>', modifyFoodPage, name='modify_food_form'),
+    path('delete_food/<str:pk>', deleteFood, name='delete_food'),
     path('', loginPage)
 ]

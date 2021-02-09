@@ -1,0 +1,19 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+    <p>{{restaurant.name}}</p>
+
+    {% for food in available_foods %}
+        <p>
+            {{food.name}} - {{food.price}}
+            {% if is_owner == True%}
+                <a class="btn btn-warning" href="{% url 'modify_food_form' food.id %}">Modify</a>
+                <a class="btn btn-danger" href="{% url 'delete_food' food.id %}">Delete</a>
+            {% endif %}
+        </p>
+    {% endfor %}
+
+    {% if is_owner == True %}
+        <a class="btn btn-success" href="{% url 'add_food_form' restaurant.id %}">Add new food</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+::-webkit-scrollbar {
+    display: none;
+}
+
+.my-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bodyContainer {
+    width: 100vw;
+    height: 95vh;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.imgContainer {
+    width: 100vw;
+    height: 35vh;
+    background-image: url("../images/food_bg.jpg");
+    background-size: 100% 100%;
+    color: rgb(156, 0, 0);
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.row p, .row h4 {
+    padding: 0;
+    margin: 0;
+}
+
+.restaurantContainer {
+    display: flex;
+}
+
+.informationContainer {
+    width: 60%;
+}
+
+.buttonContainer {
+    width: 40%;
+}
+
+hr {
+    margin-left: 1em;
+    margin-right: 1em;
+}
