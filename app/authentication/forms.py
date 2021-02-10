@@ -19,3 +19,8 @@ class FoodForm(ModelForm):
     class Meta:
         model = Food
         fields = ['name', 'price', 'description']
+
+class CartForm(ModelForm):
+    class Meta:
+        model = Cart
+        fields = []

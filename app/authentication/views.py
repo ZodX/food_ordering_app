@@ -93,13 +93,17 @@ def userPage(request):
 
 @login_required(login_url='login')
 def restaurantPage(request, pk):
+    user_group = str(request.user.groups.all()[0])
     restaurant = Restaurant.objects.get(id = pk)
     available_foods = Food.objects.filter(restaurant = restaurant)
     if (restaurant.owner_id == str(request.user.id)):
         is_owner = True
     else:
         is_owner = False
-    context = {'restaurant': restaurant, 'available_foods': available_foods, 'is_owner': is_owner}
+
+    
+
+    context = {'restaurant': restaurant, 'available_foods': available_foods, 'is_owner': is_owner, 'user_group': user_group}
     return render(request, 'restaurants/restaurant.html', context)
 
 @login_required(login_url='login')
@@ -203,3 +207,16 @@ def deleteFood(request, pk):
 
     context = {'item': food}
     return render(request, 'foods/delete_food.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allower_roles = ['customer'])
+def foodToCart(request, pk):
+    food = Food.objects.get(id = pk)
+    user_id = request.user.id
+
+    form = CartForm(request.POST)
+    fs = form.save(commit = False)
+    fs.food = food
+    fs.user_id = user_id
+    fs.save()
+    return redirect('/')

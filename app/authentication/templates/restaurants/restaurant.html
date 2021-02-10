@@ -1,7 +1,7 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    <p>{{restaurant.name}}</p>
+    <p>{{ restaurant.name }}</p>
 
     {% for food in available_foods %}
         <p>
@@ -9,6 +9,12 @@
             {% if is_owner == True%}
                 <a class="btn btn-warning" href="{% url 'modify_food_form' food.id %}">Modify</a>
                 <a class="btn btn-danger" href="{% url 'delete_food' food.id %}">Delete</a>
+            {% endif %}
+            {% if user_group == 'customer' %}
+                <form method="POST" action="{% url 'food_to_cart' food.id %}">
+                    {% csrf_token %}
+                    <input class="btn btn-success" type="submit" value="Add to cart">
+                </form>
             {% endif %}
         </p>
     {% endfor %}
