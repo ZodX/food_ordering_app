@@ -34,6 +34,8 @@ class Food(models.Model):
 class Cart(models.Model):
     user_id = models.CharField(max_length = 200, null = True)
     food = models.ForeignKey(Food, null = True, on_delete = models.SET_NULL)
+    amount = models.CharField(max_length = 200, null = True)
+    sum_price = models.CharField(max_length = 200, null = True)
 
     def __str__(self):
         return self.user_id + ' - ' + self.food.name

@@ -1,0 +1,11 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+    <p>Cart of {{ request.user.username }}</p>
+
+    {% for element in cart_elements %}
+        {{ element.food.name }} - {{ element.amount }}db - {{ element.sum_price }}$ <br>
+    {% endfor %}
+
+    <p>Total: {{total_price}}$</p>
+{% endblock %}

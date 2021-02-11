@@ -1,3 +1,19 @@
+<style>
+    .logout, .cartLink {
+        text-decoration: none;
+        color: white;
+        padding-right: 0.5em;
+    }
+
+    .logout:hover, .cartLink:hover {
+        color: white;
+    }
+
+    .cartLink {
+        padding-right: 1em;
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/home/">Navbar</a>
@@ -28,10 +44,9 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
-                </li>
             </ul>
+            <a class="cartLink" href="{% url 'cart' %}">Cart</a>
+            <a class="logout" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
         </div>
     </div>
 </nav>

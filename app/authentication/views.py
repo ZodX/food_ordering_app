@@ -101,8 +101,6 @@ def restaurantPage(request, pk):
     else:
         is_owner = False
 
-    
-
     context = {'restaurant': restaurant, 'available_foods': available_foods, 'is_owner': is_owner, 'user_group': user_group}
     return render(request, 'restaurants/restaurant.html', context)
 
@@ -211,12 +209,48 @@ def deleteFood(request, pk):
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['customer'])
 def foodToCart(request, pk):
-    food = Food.objects.get(id = pk)
     user_id = request.user.id
+    try:
+        food = Food.objects.get(id = pk)
+    except ObjectDoesNotExist:
+        print("Foor DoesNotExist")
+        return redirect('/')
 
-    form = CartForm(request.POST)
-    fs = form.save(commit = False)
-    fs.food = food
-    fs.user_id = user_id
-    fs.save()
+    carts = Cart.objects.filter(user_id = user_id)
+    found = False
+    for temp_cart in carts:
+        if temp_cart.food.id == int(pk):
+            cart = temp_cart
+            found = True
+            break
+
+    if found:
+        amount = int(cart.amount) + 1
+        price = int(cart.sum_price) + int(food.price)
+        form = CartForm(request.POST, instance = cart)
+        fs = form.save(commit = False)
+        fs.food = food
+        fs.user_id = user_id
+        fs.amount = amount
+        fs.sum_price = price
+        fs.save()
+    else:
+        print("Cart DoesNotExist")
+        form = CartForm(request.POST)
+        fs = form.save(commit = False)
+        fs.food = food
+        fs.user_id = user_id
+        fs.amount = 1
+        fs.sum_price = food.price
+        fs.save()
+
     return redirect('/')
+
+@login_required(login_url='login')
+@allowed_users(allower_roles = ['customer'])
+def cartPage(request):
+    user_id = request.user.id
+    cart_elements = Cart.objects.filter(user_id = user_id)
+    total_price = sum([int(element.sum_price) for element in cart_elements])
+    context = {'cart_elements': cart_elements, 'total_price': total_price}
+    return render(request, 'cart/cart.html', context)
