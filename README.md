@@ -1,6 +1,6 @@
 # food_ordering_app
 
-This is my diploma project at the University of Debrecen - Computer Science (2021)
+This is my diploma project at University of Debrecen - Computer Science (2021)
 
 ### About the app
 
