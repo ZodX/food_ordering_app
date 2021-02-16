@@ -1,6 +1,10 @@
 # food_ordering_app
 
-This is a webapplication for ordering food from restaurants online using Python's django Web Framework.
+This is my diploma project at the University of Debrecen - Computer Science (2021)
+
+### About the app
+
+This is a webapplication to order food from restaurants online using Python's django Web Framework.
 
 ### Getting started
 
