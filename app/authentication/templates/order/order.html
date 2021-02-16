@@ -1,0 +1,11 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+    <h5>Order from {{date}}</h5>
+    {% for order in orders %}
+        {{order.food.name}} - 
+        {{order.amount}}db - 
+        {{order.sum_price}}Ft <br>
+    {% endfor %}
+    <p>Total: {{total_price}}Ft</p>
+{% endblock %}

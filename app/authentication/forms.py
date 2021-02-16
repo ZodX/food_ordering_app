@@ -24,3 +24,8 @@ class CartForm(ModelForm):
     class Meta:
         model = Cart
         fields = []
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = []

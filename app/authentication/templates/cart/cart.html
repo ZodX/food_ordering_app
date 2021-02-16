@@ -1,11 +1,27 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    <p>Cart of {{ request.user.username }}</p>
+    
 
-    {% for element in cart_elements %}
-        {{ element.food.name }} - {{ element.amount }}db - {{ element.sum_price }}$ <br>
-    {% endfor %}
+    {% if not is_empty %}
 
-    <p>Total: {{total_price}}$</p>
+        <p>Cart of {{ request.user.username }}</p>
+
+        {% for element in cart_elements %}
+            {{ element.food.name }} - 
+            {{ element.amount }}db - 
+            {{ element.sum_price }}Ft
+            <a class="btn btn-primary" href="{% url 'manage_cart' element.id %}?action=inc">+</a>
+            <a class="btn btn-warning" href="{% url 'manage_cart' element.id %}?action=dcr">-</a>
+            <a class="btn btn-danger" href="{% url 'manage_cart' element.id %}?action=del">X</a>
+            <br>
+        {% endfor %}
+
+        <p>Total: {{total_price}}Ft</p>
+        <a href="{% url 'place_order' %}" class="btn btn-primary">Place order</a>
+    {% else %}
+
+        <h5>Your cart is empty</h5>
+   
+    {% endif %}
 {% endblock %}

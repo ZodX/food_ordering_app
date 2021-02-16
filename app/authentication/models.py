@@ -40,8 +40,8 @@ class Cart(models.Model):
     def __str__(self):
         return self.user_id + ' - ' + self.food.name
 
-
 class Order(models.Model):
+    order_counter = models.CharField(max_length = 200, null = True)
     user_id = models.CharField(max_length = 200, null = True)
     food = models.ForeignKey(Food, null = True, on_delete = models.SET_NULL)
     amount = models.CharField(max_length = 200, null = True)

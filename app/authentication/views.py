@@ -213,7 +213,7 @@ def foodToCart(request, pk):
     try:
         food = Food.objects.get(id = pk)
     except ObjectDoesNotExist:
-        print("Foor DoesNotExist")
+        print("Food DoesNotExist")
         return redirect('/')
 
     carts = Cart.objects.filter(user_id = user_id)
@@ -252,5 +252,79 @@ def cartPage(request):
     user_id = request.user.id
     cart_elements = Cart.objects.filter(user_id = user_id)
     total_price = sum([int(element.sum_price) for element in cart_elements])
-    context = {'cart_elements': cart_elements, 'total_price': total_price}
+    if total_price:
+        is_empty = False
+    else:
+        is_empty = True
+    context = {'cart_elements': cart_elements, 'total_price': total_price, 'is_empty': is_empty}
     return render(request, 'cart/cart.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allower_roles = ['customer'])
+def manageCart(request, pk):
+    cart = Cart.objects.get(id = pk)
+    if (int(request.user.id) != int(cart.user_id)): 
+        print('Incorrect id')
+        return redirect('/')
+
+    action = request.GET.get("action")
+    if action == 'inc':
+        cart.amount = int(cart.amount) + 1
+        cart.sum_price = int(cart.sum_price) + int(cart.food.price)
+        cart.save()
+    elif action == 'dcr':
+        if int(cart.amount) > 1:
+            cart.amount = int(cart.amount) - 1
+            cart.sum_price = int(cart.sum_price) - int(cart.food.price)
+            cart.save()
+    elif action == 'del':
+        cart.delete()
+
+    return redirect('cart')
+
+@login_required(login_url='login')
+@allowed_users(allower_roles = ['customer'])
+def placeOrder(request):
+    cart_elements = Cart.objects.filter(user_id = request.user.id)
+    users_orders = Order.objects.filter(user_id = request.user.id)
+    
+    if len(users_orders) > 0:
+        users_order_counter = max([int(order.order_counter) for order in users_orders])
+    else:
+        users_order_counter = 0
+
+    for element in cart_elements:
+        form = OrderForm(request.POST)
+        fs = form.save(commit = False)
+        fs.order_counter = users_order_counter + 1
+        fs.user_id = request.user.id
+        fs.food = element.food
+        fs.amount = element.amount
+        fs.sum_price = element.sum_price
+        fs.save()
+        element.delete()
+
+    return redirect('order_placed')
+
+@login_required(login_url='login')
+@allowed_users(allower_roles = ['customer'])
+def orderPlacedPage(request):
+    orders = Order.objects.filter(user_id = request.user.id)
+    orders_set = []
+    order_counters = []
+    for order in orders:
+        if order.order_counter not in order_counters:
+            orders_set.append(order)
+            order_counters.append(order.order_counter)
+    context = {'orders_set': orders_set}
+    return render(request, 'order/order_placed.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allower_roles = ['customer'])
+def orderPage(request, pk):
+    orders = Order.objects.filter(order_counter = pk)
+    date = orders[0].order_date
+    total_price = sum([int(element.sum_price) for element in orders])
+
+    context = {'orders': orders, 'date': date, 'total_price': total_price}
+    return render(request, 'order/order.html', context)
