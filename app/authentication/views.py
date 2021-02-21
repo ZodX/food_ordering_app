@@ -77,8 +77,21 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def homePage(request):
+    user_group = str(request.user.groups.all()[0])
     restaurants = Restaurant.objects.all()
-    return render(request, 'authentication/index.html', {'restaurants' : restaurants})
+    if user_group == 'restaurant':
+        try:
+            users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
+        except ObjectDoesNotExist:
+            users_restaurant = None
+    else:
+        users_restaurant = None
+    context = {
+        'restaurants': restaurants, 
+        'user_group': user_group, 
+        'users_restaurant': users_restaurant
+    }
+    return render(request, 'authentication/index.html', context)
 
 @login_required(login_url='login')
 @admin_only
@@ -86,9 +99,9 @@ def adminPage(request):
     return render(request, 'accounts/admin.html')
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['customer'])
 def userPage(request):
-    context = {}
+    user_group = str(request.user.groups.all()[0])
+    context = {'user_group': user_group}
     return render(request, 'accounts/user.html', context)
 
 @login_required(login_url='login')
@@ -100,8 +113,21 @@ def restaurantPage(request, pk):
         is_owner = True
     else:
         is_owner = False
+    if user_group == 'restaurant':
+        try:
+            users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
+        except ObjectDoesNotExist:
+            users_restaurant = None
+    else:
+        users_restaurant = None
 
-    context = {'restaurant': restaurant, 'available_foods': available_foods, 'is_owner': is_owner, 'user_group': user_group}
+    context = {
+        'restaurant': restaurant,
+        'available_foods': available_foods,
+        'is_owner': is_owner,
+        'user_group': user_group,
+        'users_restaurant': users_restaurant    
+    }
     return render(request, 'restaurants/restaurant.html', context)
 
 @login_required(login_url='login')
@@ -123,6 +149,13 @@ def restaurantDetailPage(request, pk):
         print('Incorrect id')
         return redirect('/')
 
+    user_group = str(request.user.groups.all()[0])
+    if user_group == 'restaurant':
+        try:
+            users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
+        except ObjectDoesNotExist:
+            users_restaurant = None
+
     try:
         restaurant = Restaurant.objects.get(owner_id = pk)
         form = RestaurantForm(instance = restaurant)
@@ -134,7 +167,11 @@ def restaurantDetailPage(request, pk):
                 fs.owner_id = str(request.user.id)
                 fs.save()
                 return redirect('/')
-        context = {'form': form, 'restaurant': restaurant}
+        context = {
+            'form': form, 
+            'restaurant': restaurant,
+            'users_restaurant': users_restaurant
+        }
         return render(request, 'restaurants/restaurant_detail.html', context)
     except ObjectDoesNotExist:
         print('doesnt exist')
@@ -147,7 +184,10 @@ def restaurantDetailPage(request, pk):
                 fs.owner_id = str(request.user.id)
                 fs.save()
                 return redirect('/')
-        context = {'form': form}
+        context = {
+            'form': form,
+            'users_restaurant': users_restaurant
+        }
         return render(request, 'restaurants/restaurant_form.html', context)
 
     return render(request, 'restaurants/restaurant_detail.html')
@@ -159,6 +199,13 @@ def addFoodPage(request, pk):
     if (int(request.user.id) != int(restaurant.owner_id)): 
         return redirect('/')
 
+    user_group = str(request.user.groups.all()[0])
+    if user_group == 'restaurant':
+        try:
+            users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
+        except ObjectDoesNotExist:
+            users_restaurant = None
+
     form = FoodForm()
 
     if request.method == 'POST':
@@ -167,9 +214,12 @@ def addFoodPage(request, pk):
             fs = form.save(commit = False)
             fs.restaurant = restaurant
             fs.save()
-            return redirect('/')
+            return redirect('restaurant', restaurant.id)
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'users_restaurant': users_restaurant
+    }
     return render(request, 'foods/add_food_form.html', context)
 
 @login_required(login_url='login')
@@ -180,15 +230,25 @@ def modifyFoodPage(request, pk):
         print('Incorrect id')
         return redirect('/')
 
+    user_group = str(request.user.groups.all()[0])
+    if user_group == 'restaurant':
+        try:
+            users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
+        except ObjectDoesNotExist:
+            users_restaurant = None
+
     form = FoodForm(instance = food)
 
     if request.method == "POST":
         form = FoodForm(request.POST, instance = food)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('restaurant', users_restaurant.id)
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'users_restaurant': users_restaurant
+    }
     return render(request, 'foods/modify_food_form.html', context)
 
 @login_required(login_url='login')
@@ -199,11 +259,21 @@ def deleteFood(request, pk):
         print('Incorrect id')
         return redirect('/')
 
+    user_group = str(request.user.groups.all()[0])
+    if user_group == 'restaurant':
+        try:
+            users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
+        except ObjectDoesNotExist:
+            users_restaurant = None
+
     if request.method == "POST":
         food.delete()
         return redirect('/')
 
-    context = {'item': food}
+    context = {
+        'item': food, 
+        'users_restaurant': users_restaurant
+    }
     return render(request, 'foods/delete_food.html', context)
 
 @login_required(login_url='login')
@@ -250,13 +320,20 @@ def foodToCart(request, pk):
 @allowed_users(allower_roles = ['customer'])
 def cartPage(request):
     user_id = request.user.id
+    user_group = str(request.user.groups.all()[0])
     cart_elements = Cart.objects.filter(user_id = user_id)
     total_price = sum([int(element.sum_price) for element in cart_elements])
     if total_price:
         is_empty = False
     else:
         is_empty = True
-    context = {'cart_elements': cart_elements, 'total_price': total_price, 'is_empty': is_empty}
+
+    context = {
+        'cart_elements': cart_elements, 
+        'total_price': total_price, 
+        'is_empty': is_empty,
+        'user_group': user_group
+    }
     return render(request, 'cart/cart.html', context)
 
 @login_required(login_url='login')
@@ -285,30 +362,54 @@ def manageCart(request, pk):
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['customer'])
 def placeOrder(request):
-    cart_elements = Cart.objects.filter(user_id = request.user.id)
-    users_orders = Order.objects.filter(user_id = request.user.id)
-    
-    if len(users_orders) > 0:
-        users_order_counter = max([int(order.order_counter) for order in users_orders])
+    user_id = request.user.id
+    user_group = str(request.user.groups.all()[0])
+    cart_elements = Cart.objects.filter(user_id = user_id)
+    users_orders = Order.objects.filter(user_id = user_id)
+
+    cart_elements = Cart.objects.filter(user_id = user_id)
+    total_price = sum([int(element.sum_price) for element in cart_elements])
+    if total_price:
+        is_empty = False
     else:
-        users_order_counter = 0
+        is_empty = True
+        return redirect('/')
+    
+    form = OrderForm()
 
-    for element in cart_elements:
+    if request.method == 'POST':
         form = OrderForm(request.POST)
-        fs = form.save(commit = False)
-        fs.order_counter = users_order_counter + 1
-        fs.user_id = request.user.id
-        fs.food = element.food
-        fs.amount = element.amount
-        fs.sum_price = element.sum_price
-        fs.save()
-        element.delete()
+        if len(users_orders) > 0:
+            users_order_counter = max([int(order.order_counter) for order in users_orders])
+        else:
+            users_order_counter = 0
 
-    return redirect('order_placed')
+        for element in cart_elements:
+            form = OrderForm(request.POST)
+            fs = form.save(commit = False)
+            fs.order_counter = users_order_counter + 1
+            fs.user_id = request.user.id
+            fs.food = element.food
+            fs.amount = element.amount
+            fs.sum_price = element.sum_price
+            fs.save()
+            element.delete()
+
+        return redirect('order_placed')
+
+    context = {
+        'cart_elements': cart_elements, 
+        'total_price': total_price, 
+        'is_empty': is_empty,
+        'user_group': user_group,
+        'form': form
+    }
+    return render(request, 'order/place_order.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['customer'])
 def orderPlacedPage(request):
+    user_group = str(request.user.groups.all()[0])
     orders = Order.objects.filter(user_id = request.user.id)
     orders_set = []
     order_counters = []
@@ -316,15 +417,36 @@ def orderPlacedPage(request):
         if order.order_counter not in order_counters:
             orders_set.append(order)
             order_counters.append(order.order_counter)
-    context = {'orders_set': orders_set}
+    context = {
+        'orders_set': orders_set, 
+        'user_group': user_group
+    }
     return render(request, 'order/order_placed.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['customer'])
 def orderPage(request, pk):
-    orders = Order.objects.filter(order_counter = pk)
+    users_orders = Order.objects.filter(user_id = request.user.id)
+    if len(users_orders) > 0:
+        users_order_counter = max([int(order.order_counter) for order in users_orders])
+    else:
+        users_order_counter = 0
+
+    if int(users_order_counter) < int(pk):
+        return redirect('/')
+
+    user_group = str(request.user.groups.all()[0])
+    order_records = Order.objects.filter(user_id = request.user.id)
+    orders = [record for record in order_records if record.order_counter == pk]
     date = orders[0].order_date
     total_price = sum([int(element.sum_price) for element in orders])
 
-    context = {'orders': orders, 'date': date, 'total_price': total_price}
+    context = {
+        'orders': orders, 
+        'date': date, 
+        'total_price': total_price,
+        'user_group': user_group,
+        'phone_number': orders[0].phone_number,
+        'address': orders[0].address
+    }
     return render(request, 'order/order.html', context)

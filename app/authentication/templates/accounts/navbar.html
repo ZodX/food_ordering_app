@@ -1,22 +1,6 @@
-<style>
-    .logout, .cartLink {
-        text-decoration: none;
-        color: white;
-        padding-right: 0.5em;
-    }
-
-    .logout:hover, .cartLink:hover {
-        color: white;
-    }
-
-    .cartLink {
-        padding-right: 1em;
-    }
-</style>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home/">Navbar</a>
+        <a class="navbar-brand" href="/home/">FoodStation</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -25,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'user' %}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
@@ -45,8 +29,17 @@
                     </ul>
                 </li>
             </ul>
-            <a class="cartLink" href="{% url 'order_placed' %}">My Orders</a>
-            <a class="cartLink" href="{% url 'cart' %}">Cart</a>
+            {% if user_group == 'customer' %}
+                <a class="cartLink" href="{% url 'order_placed' %}">My Orders</a>
+                <a class="cartLink" href="{% url 'cart' %}">Cart</a>
+            {% endif %}
+            {% if user_group == 'restaurant' %}
+                {% if users_restaurant != None %}
+                    <a class="cartLink" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
+                {% else %}
+                    <a class="cartLink" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
+                {% endif %}
+            {% endif %}
             <a class="logout" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
         </div>
     </div>

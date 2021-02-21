@@ -9,7 +9,7 @@
         {{ form }}
         <input type="submit" value="Submit">
     </form>
-    {% if restaurant.id != null %}
-        <a class="btn btn-danger" href="{% url 'delete_restaurant' restaurant.id %}">Delete {{restaurant.id}}</a>
-    {% endif %}
+    <!-- {% if restaurant.id != null %}
+        <a class="btn btn-danger" href="{% url 'delete_restaurant' restaurant.id %}">Delete restaurant</a>
+    {% endif %} -->
 {% endblock %}

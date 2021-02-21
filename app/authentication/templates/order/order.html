@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
     <h5>Order from {{date}}</h5>
+    <p><b>Phone number:</b> {{phone_number}} <b>Address:</b> {{address}}</p>
     {% for order in orders %}
         {{order.food.name}} - 
         {{order.amount}}db - 

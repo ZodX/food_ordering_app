@@ -1,0 +1,13 @@
+.logout, .cartLink {
+    text-decoration: none;
+    color: white;
+    padding-right: 0.5em;
+}
+
+.logout:hover, .cartLink:hover {
+    color: white;
+}
+
+.cartLink {
+    padding-right: 1em;
+}

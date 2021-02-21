@@ -1,7 +1,12 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    <p>{{ restaurant.name }}</p>
+    <p>
+        {{ restaurant.name }} - 
+        {% if is_owner == True %}
+            <a class="btn btn-warning" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
+        {% endif %}
+    </p>
 
     {% for food in available_foods %}
         <p>

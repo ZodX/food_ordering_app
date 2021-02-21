@@ -1,0 +1,22 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+    
+    <h3>Place your order</h3>
+
+    {% for element in cart_elements %}
+        {{ element.food.name }} - 
+        {{ element.amount }}db - 
+        {{ element.sum_price }}Ft
+        <br>
+    {% endfor %}
+
+    <p>Total: {{total_price}}Ft</p>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input class="btn btn-primary" type="submit" value="Place order">
+    </form>
+
+{% endblock %}
