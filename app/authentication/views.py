@@ -86,6 +86,7 @@ def homePage(request):
             users_restaurant = None
     else:
         users_restaurant = None
+
     context = {
         'restaurants': restaurants, 
         'user_group': user_group, 

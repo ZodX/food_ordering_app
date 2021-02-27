@@ -3,29 +3,34 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static '/css/index.css' %}">
-<div class="bodyContainer">
-    <div class="imgContainer my-flex">
-        <h1>One bite can change your mind...</h1>
+<div id="bodyContainer">
+    <div id="slogenContainer" class="my-flex">
+        <div id="slogenSubContainer">
+            <h1>QUALITY FOOD</h1>
+            <h4>QUALITY LIFE</h4>
+        </div>
     </div>
-    <h2>Hello, {{ request.user }}. Here are the available restaurants... ({{restaurants.count}})</h2>
-    <hr>
-    <div class="listContainer">
-        {% for restaurant in restaurants %}
-            <div class="row">
-                <div class="restaurantContainer">
-                    <div class="informationContainer">
-                        <h4>{{ restaurant.name }}</h4>
-                        <p>{{ restaurant.address }}</p>
-                    </div>
-                    <div class="buttonContainer my-flex">
-                        <a class="btn btn-success" href="{% url 'restaurant' restaurant.id %}">Go to restaurant</a>
+    <div id="contentContainer">
+        <div id="subtitleContainer" class="my-flex">
+            <h3>Check out our restaurants</h3>
+        </div>
+        <div id="listContainer">
+            {% for restaurant in restaurants %}
+                <div class="row my-flex">
+                    <div class="restaurantContainer my-flex">
+                        <div class="restaurantPictogramContainer"></div>
+                        <div class="restaurantContentContainer">
+                            <h4>{{ restaurant.name }}</h4>
+                            <p>{{ restaurant.address }}</p>
+                        </div>
+                        <div class="buttonContainer my-flex">
+                            <a class="btn my-flex" href="{% url 'restaurant' restaurant.id %}"><b>View</b></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr>
-        {% endfor %}   
+            {% endfor %}
+        </div>
     </div>
-    
 </div>
 
 {% endblock %}

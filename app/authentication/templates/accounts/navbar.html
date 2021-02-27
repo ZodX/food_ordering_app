@@ -1,46 +1,38 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home/">FoodStation</a>
+        <a class="navbar-brand my-flex navTitle" href="/home/">Food<div class="colored">Station</div></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'user' %}">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                {% if user_group == 'customer' %}
+                    <li>
+                        <a class="nav-link link" href="{% url 'order_placed' %}">My Orders</a>
+                    </li>
+                    <li>
+                        <a class="nav-link link" href="{% url 'cart' %}">Cart</a>
+                    </li>
+                {% endif %}
+                {% if user_group == 'restaurant' %}
+                    {% if users_restaurant != None %}
                         <li>
-                            <hr class="dropdown-divider">
+                            <a class="nav-link link" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
                         </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                    {% else %}
+                        <li>
+                            <a class="nav-link link" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                <li>
+                    <a class="nav-link link logout" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
                 </li>
             </ul>
-            {% if user_group == 'customer' %}
-                <a class="cartLink" href="{% url 'order_placed' %}">My Orders</a>
-                <a class="cartLink" href="{% url 'cart' %}">Cart</a>
-            {% endif %}
-            {% if user_group == 'restaurant' %}
-                {% if users_restaurant != None %}
-                    <a class="cartLink" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
-                {% else %}
-                    <a class="cartLink" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
-                {% endif %}
-            {% endif %}
-            <a class="logout" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
+            
+            
         </div>
     </div>
 </nav>

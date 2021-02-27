@@ -1,13 +1,48 @@
-.logout, .cartLink {
-    text-decoration: none;
-    color: white;
+:root {
+    --var-colorPrimary: rgb(255, 73, 118);
+}
+
+nav.navbar {
+    background: rgba(0, 0, 0, 0.7);;
+    max-height: 100vh;
+    min-height: 8vh;
+    margin: 0;
+    padding: 0;
+}
+
+.navTitle {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 30px;
+}
+
+@media only screen and (min-width: 992px) {
+    div.navbar-collapse.collapse {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+div.navbar-collapse.collapse.show {
+    height: auto;
+}
+
+.my-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.colored {
+    color: var(--var-colorPrimary);
+}
+
+.nav-link {
     padding-right: 0.5em;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 20px;
 }
 
-.logout:hover, .cartLink:hover {
-    color: white;
-}
-
-.cartLink {
-    padding-right: 1em;
+.link {
+    color: rgb(204, 204, 204);
 }
