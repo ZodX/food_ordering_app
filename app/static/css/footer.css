@@ -1,0 +1,12 @@
+#footer {
+    margin-top: 4vh;
+    width: 100vw;
+    background: black;
+    color: white;
+    text-align: right;
+    padding: 0 0.5em;
+}
+
+#footer p {
+    padding: 0.25em 0;
+}

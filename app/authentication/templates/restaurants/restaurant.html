@@ -1,30 +1,88 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    <p>
-        {{ restaurant.name }} - 
-        {% if is_owner == True %}
-            <a class="btn btn-warning" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
-        {% endif %}
-    </p>
-
-    {% for food in available_foods %}
-        <p>
-            {{food.name}} - {{food.price}}
-            {% if is_owner == True%}
-                <a class="btn btn-warning" href="{% url 'modify_food_form' food.id %}">Modify</a>
-                <a class="btn btn-danger" href="{% url 'delete_food' food.id %}">Delete</a>
-            {% endif %}
-            {% if user_group == 'customer' %}
-                <form method="POST" action="{% url 'food_to_cart' food.id %}">
-                    {% csrf_token %}
-                    <input class="btn btn-success" type="submit" value="Add to cart">
-                </form>
+    <link rel="stylesheet" href="{% static '/css/restaurant.css' %}">
+    <div id="bodyContainer">
+        <!-- <p>
+            {{ restaurant.name }} -
+            {% if is_owner == True %}
+                <a class="btn btn-warning" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
             {% endif %}
         </p>
-    {% endfor %}
+        {% for food in available_foods %}
+            <p>
+                {{food.name}} - {{food.price}}
+                {% if is_owner == True%}
+                    <a class="btn btn-warning" href="{% url 'modify_food_form' food.id %}">Modify</a>
+                    <a class="btn btn-danger" href="{% url 'delete_food' food.id %}">Delete</a>
+                {% endif %}
+                {% if user_group == 'customer' %}
+                    <form method="POST" action="{% url 'food_to_cart' food.id %}">
+                        {% csrf_token %}
+                        <input class="btn btn-success" type="submit" value="Add to cart">
+                    </form>
+                {% endif %}
+            </p>
+        {% endfor %}
+        {% if is_owner == True %}
+            <a class="btn btn-success" href="{% url 'add_food_form' restaurant.id %}">Add new food</a>
+        {% endif %} -->
 
-    {% if is_owner == True %}
-        <a class="btn btn-success" href="{% url 'add_food_form' restaurant.id %}">Add new food</a>
-    {% endif %}
+        <div id="titleContainer" class="my-flex">
+            <div id="titleSubContainer">
+                <h1>{{ restaurant.name }}</h1>
+                <h4>{{ restaurant.address }}</h4>
+            </div>
+        </div>
+
+        <div class="phoneView">
+            {% if is_owner == True %}
+                <div id="subtitleContainer" class="my-flex">
+                    <div id="editButtonContainer" class="my-flex">
+                        <a id="editButton" class="btn" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
+                    </div>
+                </div>
+            {% else %}
+                <div id="subtitleContainer" class="my-flex">
+                    <h3>Check out our foods</h3>
+                </div>
+            {% endif %}
+            
+            <div id="listContainer">
+                {% for food in available_foods %}
+                    <div class="row my-flex">
+                        <div class="foodContainer my-flex">
+                            <div class="foodPictogramContainer"></div>
+                            <div class="foodContentContainer">
+                                <h4>{{ food.name }}</h4>
+                                <p class="descriptionContainer">{{ food.description }} mert mindig megéhezel tőle és nemtudod megmagyarázni hányszor hánytál már tóle és miért</p>
+                                <p class="price"><b>{{ food.price }}$</b></p>
+                            </div>
+                            <!-- <div class="buttonContainer my-flex">
+                                <a class="btn my-flex" href="{% url 'restaurant' restaurant.id %}"><b>View</b></a>
+                            </div> -->
+
+                            {% if is_owner == True%}
+                                <div class="editButtonsContainer">
+                                    <a class="btn modifyButton" href="{% url 'modify_food_form' food.id %}">Modify</a>
+                                    <a class="btn deleteButton" href="{% url 'delete_food' food.id %}">Delete</a>
+                                </div>
+                            {% endif %}
+                            {% if user_group == 'customer' %}
+                                <form class="buttonContainer my-flex" method="POST" action="{% url 'food_to_cart' food.id %}">
+                                    {% csrf_token %}
+                                    <input class="btn my-flex" type="submit" value="Add to cart">
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+    
+            </div>
+            {% include 'accounts/footer.html' %}
+        </div>
+        <div class="desktopView">
+            bbb
+        </div>
+    </div>
 {% endblock %}

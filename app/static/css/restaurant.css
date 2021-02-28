@@ -15,6 +15,7 @@ html, body {
 body {
     background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url("../images/food_bg.jpg");
     background-size: 100% 100%;
+    color: white;
 }
 
 #bodyContainer {
@@ -30,6 +31,24 @@ body {
     #bodyContainer {
         height: 92vh;
     }
+
+    .phoneView {
+        display: none;
+    }
+
+    .desktopView {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .phoneView {
+        display: block;
+    }
+
+    .desktopView {
+        display: none;
+    }
 }
 
 .my-flex {
@@ -38,26 +57,22 @@ body {
     align-items: center;
 }
 
-#slogenContainer {
+#titleContainer {
     height: 15vh;
     width: 100vw;
 }
 
-#slogenSubContainer h4 {
+#titleSubContainer h4 {
     color: var(--var-colorPrimary);
     text-align: center;
 }
 
 h1 {
+    text-align: center;
     color: white;
     margin: 0;
     padding: 0;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-#contentContainer {
-    height: 77vh;
-    width: 100vw;
 }
 
 #subtitleContainer {
@@ -71,6 +86,29 @@ h1 {
     color: var(--var-colorPrimary);
 }
 
+#editButtonContainer {
+    font-family: sans-serif;
+    border: 3px solid orange;
+    color: var(--var-colorPrimary);
+    height: 6.5vh;
+    border-radius: 0.75em;
+    transition: .5s;
+    font-size: 12.5px;
+    padding: 0 0.5em;
+}
+
+#editButton {
+    font-weight: bold;
+    color: orange;
+    margin: 0;
+    padding: 0;
+}
+
+#editButtonContainer:hover {
+    background-color: rgb(255, 233, 193);
+    color: black;
+}
+
 #listContainer {
     height: 67vh;
     width: 100vw;
@@ -81,9 +119,9 @@ h1 {
     padding: 2vh 0 0 0;
 }
 
-.restaurantContainer {
+.foodContainer {
     width: 90vw;
-    height: 15vh;
+    height: 17.5vh;
     border-radius: 1em;
     -webkit-box-shadow: 10px 10px 80px -16px rgba(107,107,107,1);
     -moz-box-shadow: 10px 10px 80px -16px rgba(107,107,107,1);
@@ -91,32 +129,32 @@ h1 {
     background: white;
 }
 
-.restaurantPictogramContainer {
+.foodPictogramContainer {
     position: relative;
     width: 0;
-    height: 100px;
-    padding-left: 100px;
-    background: url("../images/food_pictogram.png");
-    background-size: contain;
+    height: 90px;
+    padding-left: 90px;
+    background: url("../images/steak2.png");
+    background-size: 100% 100%;
 }
 
-.restaurantContentContainer {
+.foodContentContainer {
     height: 100%;
     width: 65%;
     color: black;
     text-decoration: none;
 }
 
-.restaurantContentContainer * {
+.foodContentContainer * {
     padding-left: 1vw;
 }
 
-.restaurantContentContainer h4 {
+.foodContentContainer h4 {
     margin-top: 2.5vh;
 }
 
-.restaurantContentContainer p {
-    margin-top: 3vh;
+.foodContentContainer p {
+    margin-top: 1vh;
 }
 
 h4, p {
@@ -124,35 +162,77 @@ h4, p {
     padding: 0;
 }
 
+.descriptionContainer {
+    max-height: 25%;
+    overflow: scroll;
+}
+
 .buttonContainer {
     height: 100%;
     width: 20%;
 }
 
-.buttonContainer a {
+.buttonContainer input {
     border: 3px solid var(--var-colorPrimary);
     color: var(--var-colorPrimary);
     width: 75%;
     height: 6.5vh;
     border-radius: 0.75em;
     transition: .5s;
+    font-size: 12.5px;
+    margin: 0 0.25em;
+    font-weight: bold;
 }
 
-.buttonContainer a:hover {
+.buttonContainer input:hover {
     background-color: var(--var-colorSecondary);
     color: white;
 }
 
-@media only screen and (max-width: 425px) {
-    .restaurantContainer {
+.editButtonsContainer {
+    text-align: center;
+}
+
+.modifyButton,
+.deleteButton {
+    width: 75%;
+    height: 4vh;
+    border-radius: 0.75em;
+    transition: .5s;
+    font-size: 12.5px;
+    margin: 0 0.25em;
+    font-weight: bold;
+}
+
+.modifyButton {
+    border: 3px solid orange;
+    color: orange;
+    margin-bottom: 1em;
+}
+
+.deleteButton {
+    border: 3px solid red;
+    color: red;
+}
+
+@media only screen and (max-width: 600px) {
+    .foodContainer {
         justify-content: start;
     }
     
-    .restaurantPictogramContainer {
+    .foodPictogramContainer {
         height: 80px;
         padding-left: 80px;
     }
     
+    .foodContentContainer h4 {
+        margin-top: 3vh;
+    }
+
+    .descriptionContainer {
+        max-height: 30%;
+    }
+
     h4 {
         font-size: 15px;
     }

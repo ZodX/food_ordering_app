@@ -5,4 +5,6 @@
     {% for order in orders_set %}
         <h5>Order from {{order.order_date}} <a href="{% url 'order' order.order_counter %}" class="btn btn-primary">View</a></h5>
     {% endfor %}
+
+    {% include 'accounts/footer.html' %}
 {% endblock %}
