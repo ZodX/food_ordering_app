@@ -127,7 +127,7 @@ def restaurantPage(request, pk):
         'available_foods': available_foods,
         'is_owner': is_owner,
         'user_group': user_group,
-        'users_restaurant': users_restaurant    
+        'users_restaurant': users_restaurant
     }
     return render(request, 'restaurants/restaurant.html', context)
 

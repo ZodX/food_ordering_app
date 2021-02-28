@@ -38,9 +38,8 @@
         <div class="phoneView">
             {% if is_owner == True %}
                 <div id="subtitleContainer" class="my-flex">
-                    <div id="editButtonContainer" class="my-flex">
-                        <a id="editButton" class="btn" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
-                    </div>
+                    <a id="editButton" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
+                    <a id="addButton" href="{% url 'add_food_form' restaurant.id %}">Add new food</a>
                 </div>
             {% else %}
                 <div id="subtitleContainer" class="my-flex">
@@ -48,7 +47,7 @@
                 </div>
             {% endif %}
             
-            <div id="listContainer">
+            <div class="listContainer">
                 {% for food in available_foods %}
                     <div class="row my-flex">
                         <div class="foodContainer my-flex">
@@ -58,10 +57,6 @@
                                 <p class="descriptionContainer">{{ food.description }} mert mindig megéhezel tőle és nemtudod megmagyarázni hányszor hánytál már tóle és miért</p>
                                 <p class="price"><b>{{ food.price }}$</b></p>
                             </div>
-                            <!-- <div class="buttonContainer my-flex">
-                                <a class="btn my-flex" href="{% url 'restaurant' restaurant.id %}"><b>View</b></a>
-                            </div> -->
-
                             {% if is_owner == True%}
                                 <div class="editButtonsContainer">
                                     <a class="btn modifyButton" href="{% url 'modify_food_form' food.id %}">Modify</a>
@@ -77,12 +72,62 @@
                         </div>
                     </div>
                 {% endfor %}
-    
+                {% include 'accounts/footer.html' %}
             </div>
-            {% include 'accounts/footer.html' %}
         </div>
         <div class="desktopView">
-            bbb
+            {% if is_owner == True %}
+                <div id="subtitleContainer" class="my-flex">
+                    <a id="editButton" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
+                    <a id="addButton" href="{% url 'add_food_form' restaurant.id %}">Add new food</a>
+                </div>
+            {% else %}
+                <div id="subtitleContainer" class="my-flex">
+                    <h3>Check out our foods</h3>
+                </div>
+            {% endif %}
+            <div class="listContainer">
+                <div class="container">
+                    <div class="row row-cols-3 my-flex justify-content-around">
+                        {% for food in available_foods %}
+                            <div class="col card">
+                                <div class="imgContainer">
+                                    <div class="deleteButtonContainer">
+                                        <a class="delButton" href="{% url 'delete_food' food.id %}"><b>X</b></a>
+                                    </div>
+                                </div>
+                                <div class="nameContainer">
+                                    <h4>{{ food.name }}</h4>
+                                </div>
+                                <p class="description">
+                                    {{ food.description }} mert isten azért teremtette ezt a világoit, hogy zolit jól seggbekúrja, ugyanis megvette most a wow előfizetést, de nem tud whisperelni senkire ;(
+                                </p>
+                                <div class="activityContainer my-flex">
+                                    <div class="priceContainer">
+                                        <p>
+                                            <b>Price:</b><div class="colored price"><b>${{ food.price }}</b></div>
+                                        </p>
+                                    </div>
+                                    {% if user_group == 'customer' %}
+                                        <div class="buttonContainer my-flex">
+                                            <form class="" method="POST" action="{% url 'food_to_cart' food.id %}">
+                                                {% csrf_token %}
+                                                <input class="input my-flex" type="submit" value="Add to cart">
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                    {% if is_owner == True%}
+                                        <div class="cardButtonsContainer my-flex">
+                                            <a class="btn modifyButton" href="{% url 'modify_food_form' food.id %}"><b>Modify</b></a>
+                                        </div>
+                                    {% endif %}
+                                    </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% include 'accounts/footer.html' %}
+            </div>
         </div>
     </div>
 {% endblock %}
