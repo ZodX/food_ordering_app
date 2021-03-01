@@ -87,10 +87,13 @@ def homePage(request):
     else:
         users_restaurant = None
 
+    cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
+
     context = {
         'restaurants': restaurants, 
         'user_group': user_group, 
-        'users_restaurant': users_restaurant
+        'users_restaurant': users_restaurant,
+        'cart_counter': cart_counter
     }
     return render(request, 'authentication/index.html', context)
 
@@ -122,13 +125,15 @@ def restaurantPage(request, pk):
     else:
         users_restaurant = None
     food_count = len(available_foods)
+    cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
     context = {
         'restaurant': restaurant,
         'available_foods': available_foods,
         'is_owner': is_owner,
         'user_group': user_group,
         'users_restaurant': users_restaurant,
-        'food_count': food_count
+        'food_count': food_count,
+        'cart_counter': cart_counter
     }
     return render(request, 'restaurants/restaurant.html', context)
 
@@ -312,17 +317,19 @@ def cartPage(request):
     user_id = request.user.id
     user_group = str(request.user.groups.all()[0])
     cart_elements = Cart.objects.filter(user_id = user_id)
-    total_price = sum([int(element.sum_price) for element in cart_elements])
+    total_price = round(sum([float(element.sum_price) for element in cart_elements]), 2)
+    print(total_price)
     if total_price:
         is_empty = False
     else:
         is_empty = True
-
+    cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
     context = {
         'cart_elements': cart_elements, 
         'total_price': total_price, 
         'is_empty': is_empty,
-        'user_group': user_group
+        'user_group': user_group,
+        'cart_counter': cart_counter
     }
     return render(request, 'cart/cart.html', context)
 
@@ -337,12 +344,12 @@ def manageCart(request, pk):
     action = request.GET.get("action")
     if action == 'inc':
         cart.amount = int(cart.amount) + 1
-        cart.sum_price = int(cart.sum_price) + int(cart.food.price)
+        cart.sum_price = round(float(cart.sum_price) + float(cart.food.price), 2)
         cart.save()
     elif action == 'dcr':
         if int(cart.amount) > 1:
             cart.amount = int(cart.amount) - 1
-            cart.sum_price = int(cart.sum_price) - int(cart.food.price)
+            cart.sum_price = round(float(cart.sum_price) - float(cart.food.price), 2)
             cart.save()
     elif action == 'del':
         cart.delete()
@@ -407,9 +414,13 @@ def orderPlacedPage(request):
         if order.order_counter not in order_counters:
             orders_set.append(order)
             order_counters.append(order.order_counter)
+
+    cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
+
     context = {
         'orders_set': orders_set, 
-        'user_group': user_group
+        'user_group': user_group,
+        "cart_counter": cart_counter
     }
     return render(request, 'order/order_placed.html', context)
 
@@ -430,6 +441,7 @@ def orderPage(request, pk):
     orders = [record for record in order_records if record.order_counter == pk]
     date = orders[0].order_date
     total_price = sum([int(element.sum_price) for element in orders])
+    cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
 
     context = {
         'orders': orders, 
@@ -437,6 +449,7 @@ def orderPage(request, pk):
         'total_price': total_price,
         'user_group': user_group,
         'phone_number': orders[0].phone_number,
-        'address': orders[0].address
+        'address': orders[0].address,
+        "cart_counter": cart_counter
     }
     return render(request, 'order/order.html', context)

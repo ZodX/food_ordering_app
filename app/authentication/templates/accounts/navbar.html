@@ -13,24 +13,24 @@
                         <a class="nav-link link" href="{% url 'order_placed' %}">My Orders</a>
                     </li>
                     <li>
-                        <a class="nav-link link" href="{% url 'cart' %}">Cart</a>
+                        <a class="nav-link link" href="{% url 'cart' %}">Cart({{ cart_counter }})</a>
                     </li>
                 {% endif %}
-                {% if users_restaurant != None %}
-                    <li>
-                        <a class="nav-link link" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
-                    </li>
-                {% else %}
-                    <li>
-                        <a class="nav-link link" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
-                    </li>
+                {% if user_group == 'restaurant' %}
+                    {% if users_restaurant != None %}
+                        <li>
+                            <a class="nav-link link" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="nav-link link" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
                 <li>
                     <a class="nav-link link logout" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
                 </li>
-            </ul>
-            
-            
+            </ul> 
         </div>
     </div>
 </nav>

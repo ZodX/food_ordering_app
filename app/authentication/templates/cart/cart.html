@@ -3,7 +3,7 @@
 {% block content %}
     
 
-    {% if not is_empty %}
+    <!-- {% if not is_empty %}
 
         <p>Cart of {{ request.user.username }}</p>
 
@@ -23,7 +23,42 @@
 
         <h5>Your cart is empty</h5>
    
-    {% endif %}
+    {% endif %} -->
+
+    <link rel="stylesheet" href="{% static '/css/cart.css' %}">
+
+        <div class="cartContainer">
+            {% for element in cart_elements %}
+                <div class="row">
+                    <div class="imgContainer"></div>
+                    <div class="contentContainer">
+                        <h3 class="name">{{ element.food.name }}</h3>
+                        <p class="description">{{ element.food.description }}</p>
+                    </div>
+                    <div class="deleteContainer my-flex">
+                        <a class="deleteButton" href="{% url 'manage_cart' element.id %}?action=del">X</a>
+                    </div>
+                    <div class="countContainer">
+                        <div class="dcrButtonContainer my-flex">
+                            <a class="dcrButton" href="{% url 'manage_cart' element.id %}?action=dcr">-</a>
+                        </div>
+                        <div class="counterContainer my-flex">
+                            <h5>{{ element.amount }}</h5>
+                        </div>
+                        <div class="incButtonContainer my-flex">
+                            <a class="incButton" href="{% url 'manage_cart' element.id %}?action=inc">+</a>
+                        </div>
+                        <div class="priceContainer my-flex">
+                            <h5>${{ element.sum_price }}</h5>
+                        </div>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+            <div id="totalContainer">
+                ${{ total_price }}
+            </div>
+        </div>
 
     {% include 'accounts/footer.html' %}
 {% endblock %}

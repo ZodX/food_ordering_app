@@ -1,0 +1,121 @@
+body {
+    background: url("../images/darkwood.jpg");
+    background-size: 100% 100%;
+}
+
+
+
+/*
+    Desktop view rules
+*/
+@media only screen and (min-width: 1024px) {
+    .cartContainer {
+        width: 75vw;
+        background: rgb(255, 255, 255);
+        margin-left: 12.5vw;
+        margin-top: 5vh;
+    }
+    
+    .row {
+        height: 30vh;
+        width: 100%;
+        margin: 0;
+        padding: 0 2vw;
+        display: flex;
+        align-items: center;
+        border: thin solid grey;
+    }
+    
+    .imgContainer {
+        height: 40%;
+        width: 10%;
+        background: url("../images/steak.png");
+        background-size: 100% 100%;
+        
+    }
+    
+    .contentContainer {
+        height: 80%;
+        width: 45%;
+        border-right: 1px solid grey;
+    }
+    
+    .name {
+        margin-top: 6vh;
+    }
+    
+    .description {
+        margin-top: 2vh;
+        height: 40%;
+        overflow: scroll;
+        color: grey;
+    }
+    
+    .countContainer {
+        height: 80%;
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+
+    .dcrButtonContainer,
+    .incButtonContainer {
+        height: 100%;
+        width: 17.5%;
+    }
+
+    .dcrButton,
+    .incButton {
+        background: none;
+        text-decoration: none;
+        background: grey;
+        color: black;
+        font-size: 30px;
+    }
+
+    .counterContainer {
+        width: 25%;
+        height: 100%;
+    }
+
+    h5 {
+        padding: 0;
+        margin: 0;
+    }
+
+    .priceContainer {
+        width: 50%;
+        height: 100%;
+    }
+
+    .deleteContainer {
+        width: 20%;
+        height: 80%;
+        border-right: 1px solid grey;
+    }
+
+    .deleteButton {
+        text-decoration: none;
+        color: red;
+        border: 3px solid red;
+        padding: 1em;
+        width: 35%;
+        text-align: center;
+        font-weight: bold;
+        transition: .5s;
+    }
+
+    .deleteButton:hover {
+        border-radius: 1em;
+        background-color: rgb(255, 96, 96);
+        color: rgb(92, 0, 0);
+        width: 40%;
+    }
+
+    #totalContainer {
+        border-top: 1px solid grey;
+        height: 35vh;
+    }
+}
