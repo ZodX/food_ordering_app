@@ -2,15 +2,21 @@
 {% load static %}
 {% block content %}
 
-    <p>{{ request.user.id }}</p>
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-    <!-- {% if restaurant.id != null %}
-        <a class="btn btn-danger" href="{% url 'delete_restaurant' restaurant.id %}">Delete restaurant</a>
-    {% endif %} -->
+    <div id="bodyContainer" class="my-flex">
+        <form action="" method="POST">
+            <h1>Edit restaurant details</h1>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <input type="text" name="{{ field.name }}" maxlength="200" required_id="id_{{field.name}}" placeholder="{{ field.name }}" value="{{ field.value }}" class="form-input">
+                </div>
+            {% endfor %}
+            <div class="btnContainer my-flex">
+                <input type="submit" value="Submit" id="submitButton">
+            </div>
+        </form>
+    </div>
     {% include 'accounts/footer.html' %}
 {% endblock %}

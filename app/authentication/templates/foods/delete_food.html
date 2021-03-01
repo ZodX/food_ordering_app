@@ -2,13 +2,17 @@
 {% load static %}
 {% block content %}
 
-<p>Are you sure you want to delete "{{ item }}"?</p>
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
+    <link rel="stylesheet" href="{% static '/css/delete_food.css' %}">
 
-<form method="POST" action="{% url 'delete_food' item.id %}">
-    {% csrf_token %}
-    <a class="btn btn-warning" href="{% url 'home' %}">Cancel</a>
-    <input class="btn btn-danger" type="submit" value="Delete">
-</form>
+    <div id="bodyContainer" class="my-flex">
+        <form method="POST" action="{% url 'delete_food' item.id %}">
+            <h1>Are you sure you want to delete: "{{ item.name }}"?</h1>
+            {% csrf_token %}
+            <a id="cancelButton" href="{% url 'restaurant' users_restaurant.id %}">Cancel</a>
+            <input id="deleteButton" type="submit" value="Delete">
+        </form>
+    </div>
 
     {% include 'accounts/footer.html' %}
 {% endblock %}

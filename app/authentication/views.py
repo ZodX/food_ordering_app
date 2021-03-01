@@ -121,27 +121,16 @@ def restaurantPage(request, pk):
             users_restaurant = None
     else:
         users_restaurant = None
-
+    food_count = len(available_foods)
     context = {
         'restaurant': restaurant,
         'available_foods': available_foods,
         'is_owner': is_owner,
         'user_group': user_group,
-        'users_restaurant': users_restaurant
+        'users_restaurant': users_restaurant,
+        'food_count': food_count
     }
     return render(request, 'restaurants/restaurant.html', context)
-
-@login_required(login_url='login')
-@allowed_users(allower_roles = ['restaurant'])
-def deleteRestaurant(request, pk):
-    restaurant = Restaurant.objects.get(id = pk)
-
-    if request.method == "POST":
-        restaurant.delete()
-        return redirect('/')
-
-    context = {'item': restaurant}
-    return render(request, 'restaurants/delete_restaurant.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['restaurant'])
@@ -167,7 +156,7 @@ def restaurantDetailPage(request, pk):
                 fs = form.save(commit = False)
                 fs.owner_id = str(request.user.id)
                 fs.save()
-                return redirect('/')
+                return redirect('restaurant', restaurant.id)
         context = {
             'form': form, 
             'restaurant': restaurant,
@@ -184,7 +173,8 @@ def restaurantDetailPage(request, pk):
                 fs = form.save(commit = False)
                 fs.owner_id = str(request.user.id)
                 fs.save()
-                return redirect('/')
+                restaurant = Restaurant.objects.get(owner_id = pk)
+                return redirect('restaurant', restaurant.id)
         context = {
             'form': form,
             'users_restaurant': users_restaurant
@@ -216,7 +206,6 @@ def addFoodPage(request, pk):
             fs.restaurant = restaurant
             fs.save()
             return redirect('restaurant', restaurant.id)
-
     context = {
         'form': form,
         'users_restaurant': users_restaurant
@@ -269,7 +258,7 @@ def deleteFood(request, pk):
 
     if request.method == "POST":
         food.delete()
-        return redirect('/')
+        return redirect('restaurant', users_restaurant.id)
 
     context = {
         'item': food, 

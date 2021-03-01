@@ -28,7 +28,6 @@ urlpatterns = [
     path('user/', userPage, name='user'),
     path('adminPage/', adminPage, name='admin'),
     path('restaurant/<str:pk>/', restaurantPage, name='restaurant'),
-    path('delete_restaurant/<str:pk>/', deleteRestaurant, name='delete_restaurant'),
     path('restaurant_detail/<str:pk>', restaurantDetailPage, name='restaurant_detail'),
     path('add_food/<str:pk>', addFoodPage, name='add_food_form'),
     path('modify_food/<str:pk>', modifyFoodPage, name='modify_food_form'),

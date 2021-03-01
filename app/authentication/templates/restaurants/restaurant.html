@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static '/css/restaurant.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
     <div id="bodyContainer">
         <!-- <p>
             {{ restaurant.name }} -
@@ -72,7 +73,9 @@
                         </div>
                     </div>
                 {% endfor %}
-                {% include 'accounts/footer.html' %}
+                {% if food_count > 0 %}
+                    {% include 'accounts/footer.html' %}
+                {% endif %}
             </div>
         </div>
         <div class="desktopView">
@@ -88,13 +91,15 @@
             {% endif %}
             <div class="listContainer">
                 <div class="container">
-                    <div class="row row-cols-3 my-flex justify-content-around">
+                    <div class="row row-cols-4 my-flex justify-content-around">
                         {% for food in available_foods %}
                             <div class="col card">
                                 <div class="imgContainer">
-                                    <div class="deleteButtonContainer">
-                                        <a class="delButton" href="{% url 'delete_food' food.id %}"><b>X</b></a>
-                                    </div>
+                                    {% if is_owner == True %}
+                                        <div class="deleteButtonContainer">
+                                            <a class="delButton" href="{% url 'delete_food' food.id %}"><b>X</b></a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div class="nameContainer">
                                     <h4>{{ food.name }}</h4>
@@ -126,8 +131,13 @@
                         {% endfor %}
                     </div>
                 </div>
-                {% include 'accounts/footer.html' %}
+                {% if food_count > 0 %}
+                    {% include 'accounts/footer.html' %}
+                {% endif %}
             </div>
         </div>
     </div>
+    {% if food_count == 0 %}
+        {% include 'accounts/footer.html' %}
+    {% endif %}
 {% endblock %}

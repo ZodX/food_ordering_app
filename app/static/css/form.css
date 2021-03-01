@@ -1,0 +1,101 @@
+body {
+    background: url("../images/darkwood.jpg");
+    background-size: 100% 100%;
+}
+
+#bodyContainer {
+    width: 100vw;
+    height: 92vh;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: scroll;
+}
+
+h1 {
+    color: var(--var-colorPrimary);
+    margin-bottom: 5vh;
+    text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+}
+
+form {
+    color: white;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 10vh;
+}
+
+.form-input {
+    background: none;
+    border: none;
+    border-bottom: 3px solid white;
+    color: white;
+    transition-duration: .5s;
+    text-align: center;
+}
+
+.form-input:hover,
+.form-input:focus {
+    border: none;
+    outline: none;
+    border-bottom: 3px solid yellow;
+    width: 16.5vw;
+}
+
+#submitButton {
+    background: none;
+    border: 2px solid var(--var-colorPrimary);
+    color: var(--var-colorPrimary);
+    font-weight: bold;
+    width: 15vw;
+    height: 5vh;
+    transition: .5s;
+}
+
+#submitButton:focus,
+#submitButton:hover {
+    outline: none;
+    color: var(--var-colorPrimary);
+    width: 16vw;
+    border-radius: 1em;
+}
+
+/*
+    Mobile, Tablet view rules
+*/
+@media only screen and (max-width: 700px) {
+    .form-input,
+    #submitButton {
+        width: 45vw;
+    }
+
+    .form-input:hover,
+    .form-input:focus {
+        width: 46.5vw;
+    }
+
+    #submitButton:focus,
+    #submitButton:hover {
+        width: 46vw;
+    }
+}
+
+/*
+    Desktop view rules
+*/
+@media only screen and (min-width: 700px) {
+    .form-input,
+    #submitButton {
+        width: 25vw;
+    }
+
+    .form-input:hover,
+    .form-input:focus {
+        width: 26.5vw;
+    }
+
+    #submitButton:focus,
+    #submitButton:hover {
+        width: 26vw;
+    }
+}

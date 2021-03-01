@@ -2,37 +2,38 @@
 {% load static %}
 {% block content %}
 
-<link rel="stylesheet" href="{% static '/css/index.css' %}">
-<div id="bodyContainer">
-    <div id="slogenContainer" class="my-flex">
-        <div id="slogenSubContainer">
-            <h1>QUALITY FOOD</h1>
-            <h4>QUALITY LIFE</h4>
+    <link rel="stylesheet" href="{% static '/css/index.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+    <div id="bodyContainer">
+        <div id="slogenContainer" class="my-flex">
+            <div id="slogenSubContainer">
+                <h1>QUALITY FOOD</h1>
+                <h4>QUALITY LIFE</h4>
+            </div>
         </div>
-    </div>
-    <div id="contentContainer">
-        <div id="subtitleContainer" class="my-flex">
-            <h3>Check out our restaurants</h3>
-        </div>
-        <div id="listContainer">
-            {% for restaurant in restaurants %}
-                <div class="row my-flex">
-                    <div class="restaurantContainer my-flex">
-                        <div class="restaurantPictogramContainer"></div>
-                        <div class="restaurantContentContainer">
-                            <h4>{{ restaurant.name }}</h4>
-                            <p>{{ restaurant.address }}</p>
-                        </div>
-                        <div class="buttonContainer my-flex">
-                            <a class="btn my-flex" href="{% url 'restaurant' restaurant.id %}"><b>View</b></a>
+        <div id="contentContainer">
+            <div id="subtitleContainer" class="my-flex">
+                <h3>Restaurants</h3>
+            </div>
+            <div id="listContainer">
+                {% for restaurant in restaurants %}
+                    <div class="row my-flex">
+                        <div class="restaurantContainer my-flex">
+                            <div class="restaurantPictogramContainer"></div>
+                            <div class="restaurantContentContainer">
+                                <h4>{{ restaurant.name }}</h4>
+                                <p>{{ restaurant.address }}</p>
+                            </div>
+                            <div class="buttonContainer my-flex">
+                                <a class="btn my-flex" href="{% url 'restaurant' restaurant.id %}"><b>View</b></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
 
-            {% include 'accounts/footer.html' %}
+                {% include 'accounts/footer.html' %}
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}

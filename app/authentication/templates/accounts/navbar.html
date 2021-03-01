@@ -16,16 +16,14 @@
                         <a class="nav-link link" href="{% url 'cart' %}">Cart</a>
                     </li>
                 {% endif %}
-                {% if user_group == 'restaurant' %}
-                    {% if users_restaurant != None %}
-                        <li>
-                            <a class="nav-link link" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a class="nav-link link" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
-                        </li>
-                    {% endif %}
+                {% if users_restaurant != None %}
+                    <li>
+                        <a class="nav-link link" href="{% url 'restaurant' users_restaurant.id %}">My Restaurant</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="nav-link link" href="{% url 'restaurant_detail' request.user.id %}">Create Restaurant</a>
+                    </li>
                 {% endif %}
                 <li>
                     <a class="nav-link link logout" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>

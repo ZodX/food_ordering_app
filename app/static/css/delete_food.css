@@ -1,0 +1,31 @@
+#cancelButton,
+#deleteButton {
+    border-radius: 1em;
+    text-decoration: none;
+    padding: 1em 3em;
+    transition: .5s;
+    font-weight: bold;
+}
+
+#cancelButton {
+    color: orange;
+    border: 3px solid orange;
+    margin-right: 2vw;
+}
+
+#cancelButton:hover {
+    background-color: rgb(255, 228, 177);
+    color: rgb(116, 75, 0);
+}
+
+#deleteButton {
+    background: none;
+    color: red;
+    border: 3px solid red;
+    margin-left: 2vw;
+}
+
+#deleteButton:hover {
+    background-color: rgb(255, 96, 96);
+    color: rgb(92, 0, 0);
+}
