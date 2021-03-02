@@ -10,7 +10,7 @@
             {% csrf_token %}
             {% for field in form %}
                 <div class="mb-3">
-                    <input type="text" name="{{ field.name }}" maxlength="200" required_id="id_{{field.name}}" placeholder="{{ field.name }}" value="{{ field.value }}" class="form-input">
+                    {{ field }}
                 </div>
             {% endfor %}
             <div class="btnContainer my-flex">
@@ -19,4 +19,14 @@
         </form>
     </div>
     {% include 'accounts/footer.html' %}
+
+    <script>
+        var form_input_fields = document.getElementsByTagName('input')
+        form_input_fields[0].placeholder='Name...'
+        form_input_fields[1].placeholder='Address...'
+    
+        for (let i = 1; i < form_input_fields.length - 1; i++) {
+            form_input_fields[i].setAttribute('class', 'form-input')
+        }
+    </script>
 {% endblock %}

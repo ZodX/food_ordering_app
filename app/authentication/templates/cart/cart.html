@@ -1,64 +1,161 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    
-
-    <!-- {% if not is_empty %}
-
-        <p>Cart of {{ request.user.username }}</p>
-
-        {% for element in cart_elements %}
-            {{ element.food.name }} - 
-            {{ element.amount }}db - 
-            {{ element.sum_price }}Ft
-            <a class="btn btn-primary" href="{% url 'manage_cart' element.id %}?action=inc">+</a>
-            <a class="btn btn-warning" href="{% url 'manage_cart' element.id %}?action=dcr">-</a>
-            <a class="btn btn-danger" href="{% url 'manage_cart' element.id %}?action=del">X</a>
-            <br>
-        {% endfor %}
-
-        <p>Total: {{total_price}}Ft</p>
-        <a href="{% url 'place_order' %}" class="btn btn-primary">Place order</a>
-    {% else %}
-
-        <h5>Your cart is empty</h5>
-   
-    {% endif %} -->
 
     <link rel="stylesheet" href="{% static '/css/cart.css' %}">
 
-        <div class="cartContainer">
-            {% for element in cart_elements %}
-                <div class="row">
-                    <div class="imgContainer"></div>
-                    <div class="contentContainer">
-                        <h3 class="name">{{ element.food.name }}</h3>
-                        <p class="description">{{ element.food.description }}</p>
-                    </div>
-                    <div class="deleteContainer my-flex">
-                        <a class="deleteButton" href="{% url 'manage_cart' element.id %}?action=del">X</a>
-                    </div>
-                    <div class="countContainer">
-                        <div class="dcrButtonContainer my-flex">
-                            <a class="dcrButton" href="{% url 'manage_cart' element.id %}?action=dcr">-</a>
+    {% if cart_counter > 0 %}
+        <div id="phoneView">
+            <div id="bodyContainer">
+                <h1>Cart</h1>
+                {% for element in cart_elements %}
+                    <div class="my-card">
+                        <div class="pictogramContainer my-flex">
+                            <div class="pictogram"></div>
                         </div>
-                        <div class="counterContainer my-flex">
-                            <h5>{{ element.amount }}</h5>
+                        <div class="detailsContainer">
+                            <div class="title my-flex">{{ element.food.name }}</div>
+                            <div class="price my-flex">
+                                <p>${{ element.sum_price }}</p>
+                            </div>
+                        </div>
+                        <div class="dcrButtonContainer my-flex">
+                            <a href="{% url 'manage_cart' element.id %}?action=dcr">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                        </div>
+                        <div class="qtyContainer my-flex">
+                            {{ element.amount }}
                         </div>
                         <div class="incButtonContainer my-flex">
-                            <a class="incButton" href="{% url 'manage_cart' element.id %}?action=inc">+</a>
-                        </div>
-                        <div class="priceContainer my-flex">
-                            <h5>${{ element.sum_price }}</h5>
+                            <a href="{% url 'manage_cart' element.id %}?action=inc">
+                                <i class="fa fa-plus"></i>
+                            </a>
                         </div>
                     </div>
-                    
+                {% endfor %}
+                <div class="my-card summaryContainer my-flex">
+                    <div class="orderDetailsContainer">
+                        <p>Order details</p>
+                        <form action="" method="POST" id="form">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="mb-3">
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </form>
+                        
+                    </div>
                 </div>
-            {% endfor %}
-            <div id="totalContainer">
-                ${{ total_price }}
+                <div class="my-card my-flex">
+                    <div id="orderButtonContainer" class="my-flex">
+                        <input type="submit" form="form" value="Place order" id="orderButton"></a>
+                    </div>
+                    <div class="totalPriceContainer my-flex">
+                        <div id="totalPrice">TOTAL: ${{ total_price }}</div>
+                    </div>
+                </div>
             </div>
+            {% include 'accounts/footer.html' %}
         </div>
 
-    {% include 'accounts/footer.html' %}
+        <div id="desktopView">
+            <div class="cartContainer">
+                <h1>Cart</h1>
+                <div class="cartElementsContainer">
+                    <div id="titlesContainer">
+                        <div id="imgPlaceholder"></div>
+                        <div id="nameTitle">Food name</div>
+                        <div id="unitPriceTitle">Unit price</div>
+                        <div id="qtyTitle">Qty</div>
+                        <div id="subtotalTitle">Subtotal</div>
+                        <div id="removeTitle">Remove</div>
+                    </div>
+                    {% for element in cart_elements %}
+                        <div class="row">
+                            <div class="imgContainer"></div>
+                            <div class="contentContainer">
+                                <h4 class="name">{{ element.food.name }}</h4>
+                                <p class="description">{{ element.food.description }}</p>
+                            </div>
+                            <div class="unitPriceContainer my-flex">
+                                ${{ element.food.price }}
+                            </div>
+                            <div class="qtyContainer my-flex">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" class="amountCell">{{ element.amount }}</td>
+                                        <td>
+                                            <a href="{% url 'manage_cart' element.id %}?action=inc">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'manage_cart' element.id %}?action=dcr">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="subtotalContainer my-flex">
+                                ${{ element.sum_price }}
+                            </div>
+                            <div class="removeContainer my-flex">
+                                <a class="deleteButton" href="{% url 'manage_cart' element.id %}?action=del">X</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="summaryContainer">
+                    <div id="orderButtonContainer" class="my-flex">
+                        <input type="submit" form="form" value="Place order" id="orderButton"></a>
+                    </div>
+                    <div id="orderDetailsContainer" class="my-flex">
+                        <div id="innerContainer">
+                            <p>Order details</p>
+                            <form action="" method="POST" id="form">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="mb-3">
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                    <div id="totalPriceContainer" class="my-flex">
+                        Total: ${{ total_price }}
+                    </div>
+                </div>
+            </div>
+            {% include 'accounts/footer.html' %}
+        </div>
+
+    {% else %}
+
+        <div id="bodyContainer" class="my-flex">
+            <h1>Your cart is empty</h1>
+        </div>
+    
+        {% include 'accounts/footer.html' %}
+    {% endif %}
+
+    <script>
+        var form_input_fields = document.getElementsByTagName('input')
+        console.log(form_input_fields)
+        form_input_fields[1].placeholder='Phone number...'
+        form_input_fields[2].placeholder='Address...'
+        form_input_fields[1].setAttribute('class', 'form-input')
+        form_input_fields[2].setAttribute('class', 'form-input')
+        form_input_fields[6].placeholder='Phone number...'
+        form_input_fields[7].placeholder='Address...'
+        form_input_fields[6].setAttribute('class', 'form-input')
+        form_input_fields[7].setAttribute('class', 'form-input')
+        console.log(form_input_fields.length)
+    </script>
+
 {% endblock %}

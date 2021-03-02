@@ -1,22 +1,32 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static '/css/form.css' %}">
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
 
-<div id="bodyContainer" class="my-flex">
-    <form action="" method="POST">
-        <h1>Modify food</h1>
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="mb-3">
-                <input type="text" name="{{ field.name }}" maxlength="200" required_id="id_{{field.name}}" placeholder="{{ field.name }}" value="{{ field.value }}" class="form-input">
+    <div id="bodyContainer" class="my-flex">
+        <form action="" method="POST">
+            <h1>Modify food</h1>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <div class="btnContainer my-flex">
+                <input type="submit" value="Submit" id="submitButton">
             </div>
-        {% endfor %}
-        <div class="btnContainer my-flex">
-            <input type="submit" value="Submit" id="submitButton">
-        </div>
-    </form>
-</div>
-
+        </form>
+    </div>
     {% include 'accounts/footer.html' %}
+
+<script>
+    var form_input_fields = document.getElementsByTagName('input')
+    form_input_fields[0].placeholder='Name...'
+    form_input_fields[1].placeholder='Price...'
+    form_input_fields[2].placeholder='Description...'
+
+    for (let i = 1; i < form_input_fields.length - 1; i++) {
+        form_input_fields[i].setAttribute('class', 'form-input')
+    }
+</script>
 {% endblock %}

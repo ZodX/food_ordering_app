@@ -34,6 +34,11 @@ form {
     text-align: center;
 }
 
+.links {
+    margin-top: 2vh;
+    text-align: center;
+}
+
 .form-input:hover,
 .form-input:focus {
     border: none;

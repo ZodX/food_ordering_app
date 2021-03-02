@@ -35,7 +35,6 @@ urlpatterns = [
     path('food_to_cart/<str:pk>', foodToCart, name='food_to_cart'),
     path('cart/', cartPage, name='cart'),
     path('manage_cart/<str:pk>', manageCart, name='manage_cart'),
-    path('place_order/', placeOrder, name='place_order'),
     path('order_placed/', orderPlacedPage, name='order_placed'),
     path('order/<str:pk>', orderPage, name='order'),
     path('', loginPage)

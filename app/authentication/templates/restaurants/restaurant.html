@@ -4,31 +4,6 @@
     <link rel="stylesheet" href="{% static '/css/restaurant.css' %}">
     <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
     <div id="bodyContainer">
-        <!-- <p>
-            {{ restaurant.name }} -
-            {% if is_owner == True %}
-                <a class="btn btn-warning" href="{% url 'restaurant_detail' request.user.id %}">Edit restaurant details</a>
-            {% endif %}
-        </p>
-        {% for food in available_foods %}
-            <p>
-                {{food.name}} - {{food.price}}
-                {% if is_owner == True%}
-                    <a class="btn btn-warning" href="{% url 'modify_food_form' food.id %}">Modify</a>
-                    <a class="btn btn-danger" href="{% url 'delete_food' food.id %}">Delete</a>
-                {% endif %}
-                {% if user_group == 'customer' %}
-                    <form method="POST" action="{% url 'food_to_cart' food.id %}">
-                        {% csrf_token %}
-                        <input class="btn btn-success" type="submit" value="Add to cart">
-                    </form>
-                {% endif %}
-            </p>
-        {% endfor %}
-        {% if is_owner == True %}
-            <a class="btn btn-success" href="{% url 'add_food_form' restaurant.id %}">Add new food</a>
-        {% endif %} -->
-
         <div id="titleContainer" class="my-flex">
             <div id="titleSubContainer">
                 <h1>{{ restaurant.name }}</h1>
