@@ -19,18 +19,20 @@
                                 <p>${{ element.sum_price }}</p>
                             </div>
                         </div>
-                        <div class="dcrButtonContainer my-flex">
-                            <a href="{% url 'manage_cart' element.id %}?action=dcr">
-                                <i class="fa fa-minus"></i>
-                            </a>
-                        </div>
                         <div class="qtyContainer my-flex">
-                            {{ element.amount }}
+                            <div class="interactionContainer">
+                                <a href="{% url 'manage_cart' element.id %}?action=inc">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <br>
+                                <div class="amount">{{ element.amount }}</div>
+                                <a href="{% url 'manage_cart' element.id %}?action=dcr">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                            </div>
                         </div>
-                        <div class="incButtonContainer my-flex">
-                            <a href="{% url 'manage_cart' element.id %}?action=inc">
-                                <i class="fa fa-plus"></i>
-                            </a>
+                        <div class="removeContainer my-flex">
+                            <a class="deleteButton" href="{% url 'manage_cart' element.id %}?action=del">X</a>
                         </div>
                     </div>
                 {% endfor %}

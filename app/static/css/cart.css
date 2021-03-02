@@ -83,18 +83,38 @@ body {
         border-radius: 1em;
     }
 
-    .dcrButtonContainer,
     .qtyContainer,
-    .incButtonContainer {
+    .removeContainer {
         height: 100%;
-        width: 10%;
+        width: 15%;
+    }
+
+    .amount {
+        font-size: 20px;
     }
 
     i {
         color: black;
-        border: 4px solid black;
+        border: 2px solid black;
         border-radius: 10em;
         padding: 0 0.25vw;
+    }
+
+    .deleteButton {
+        text-decoration: none;
+        color: white;
+        border: 1px solid red;
+        background: red;
+        border-radius: 10em;
+        text-align: center;
+        font-weight: bold;
+        padding: 0.1em 0.5em;
+        transition: .5s;
+    }
+
+    .deleteButton:hover {
+        background-color: red;
+        color: white;
     }
 
     .orderDetailsContainer {
