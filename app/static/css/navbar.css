@@ -39,8 +39,9 @@ div.navbar-collapse.collapse.show {
 
 .nav-link {
     padding-right: 0.5em;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 20px;
+    font-weight: bold;
 }
 
 .link {

@@ -405,7 +405,8 @@ def orderPlacedPage(request):
         if order.order_counter not in order_counters:
             current_counter = order.order_counter
             total_price = sum([float(o.sum_price) for o in orders if o.order_counter == current_counter])
-
+            if total_price - round(total_price, 0) == 0:
+                total_price = int(total_price)
             orders_set.append({
                 'date': order.order_date,
                 'address': order.address,
@@ -441,8 +442,12 @@ def orderPage(request, pk):
     orders = [record for record in order_records if record.order_counter == pk]
     for order in orders:
         order.sum_price = round(float(order.sum_price), 2)
+        if order.sum_price - round(order.sum_price, 0) == 0:
+            order.sum_price = int(order.sum_price)
     date = orders[0].order_date
     total_price = sum([float(element.sum_price) for element in orders])
+    if total_price - round(total_price, 0) == 0:
+        total_price = int(total_price)
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
 
     context = {

@@ -83,4 +83,8 @@
     #phoneNumber {
         border: 1px solid grey;
     }
+
+    .row {
+        height: 25vh;
+    }
 }
