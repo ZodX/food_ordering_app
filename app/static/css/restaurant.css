@@ -34,7 +34,7 @@ h3 {
 /*
     Mobile, Tablet view rules
 */
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 991px) {
     .phoneView {
         display: block;
     }
@@ -170,7 +170,7 @@ h3 {
 /*
     Desktop view rules
 */
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 992px) {
     #bodyContainer {
         height: 92vh;
     }
@@ -353,6 +353,26 @@ h3 {
     }
 }
 
+@media only screen and (min-width: 1225px) {
+    .delButton {
+        width: 10%;
+    }
+
+    .delButton:hover {
+        width: 35%;
+    }
+}
+
+@media only screen and (min-width: 1475px) {
+    .delButton {
+        width: 7.5%;
+    }
+
+    .delButton:hover {
+        width: 22.5%;
+    }
+}
+
 .my-flex {
     display: flex;
     justify-content: center;
@@ -420,8 +440,6 @@ h1 {
     height: 67vh;
     width: 100vw;
 }
-
-
 
 @media only screen and (max-width: 600px) {
     .foodContainer {

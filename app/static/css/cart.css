@@ -16,7 +16,7 @@ body {
 /*
     Mobile, Tablet view rules
 */
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 991px) {
     
     #phoneView {
         display: block;
@@ -194,7 +194,7 @@ body {
 /*
     Desktop view rules
 */
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 992px) {
     
     #phoneView {
         display: none;

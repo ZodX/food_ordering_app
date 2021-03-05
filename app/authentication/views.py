@@ -293,6 +293,8 @@ def foodToCart(request, pk):
     if found:
         amount = int(cart.amount) + 1
         price = float(cart.sum_price) + float(food.price)
+        if price - round(price, 0) == 0:
+            price = int(price)
         form = CartForm(request.POST, instance = cart)
         fs = form.save(commit = False)
         fs.food = food
@@ -310,7 +312,7 @@ def foodToCart(request, pk):
         fs.sum_price = food.price
         fs.save()
 
-    return redirect('/')
+    return redirect('restaurant', food.restaurant.id)
 
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['customer'])
@@ -320,6 +322,9 @@ def cartPage(request):
     cart_elements = Cart.objects.filter(user_id = user_id)
     users_orders = Order.objects.filter(user_id = user_id)
     total_price = round(sum([float(element.sum_price) for element in cart_elements]), 2)
+
+    if total_price - round(total_price, 0) == 0:
+        total_price = int(total_price)
 
     form = OrderForm()
 
@@ -365,11 +370,15 @@ def manageCart(request, pk):
     if action == 'inc':
         cart.amount = int(cart.amount) + 1
         cart.sum_price = round(float(cart.sum_price) + float(cart.food.price), 2)
+        if cart.sum_price - round(cart.sum_price, 0) == 0:
+            cart.sum_price = int(cart.sum_price)
         cart.save()
     elif action == 'dcr':
         if int(cart.amount) > 1:
             cart.amount = int(cart.amount) - 1
             cart.sum_price = round(float(cart.sum_price) - float(cart.food.price), 2)
+            if cart.sum_price - round(cart.sum_price, 0) == 0:
+                cart.sum_price = int(cart.sum_price)
             cart.save()
     elif action == 'del':
         cart.delete()
