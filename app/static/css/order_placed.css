@@ -1,0 +1,248 @@
+body {
+    background: url("../images/darkwood.jpg");
+    background-size: 100% 100%;
+}
+
+#bodyContainer {
+    min-height: 92vh;
+}
+
+#bodyContainer h1 {
+    color: var(--var-colorPrimary);
+    margin-bottom: 5vh;
+    text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+}
+
+/*
+    Mobile, Tablet view rules
+*/
+@media only screen and (max-width: 992px) {
+    
+    #phoneView {
+        display: block;
+        min-height: 92vh;
+    }
+    
+    #desktopView {
+        display: none;
+    }
+
+    h1 {
+        color: var(--var-colorPrimary);
+        margin-bottom: 5vh;
+        text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+        margin: 0;
+        padding: 0;    
+    }
+
+    #bodyContainer {
+        text-align: center;
+        padding-top: 2vh;
+    }
+
+    .my-card {
+        height: 15vh;
+        width: 90vw;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        margin-bottom: 2vh;
+        display: flex;
+        background: white;
+        border-radius: 0.33em;
+    }
+
+    .detailsContainer {
+        height: 100%;
+        width: 65%;
+    }
+
+    .date,
+    .address,
+    .priceContainer {
+        font-size: 12.5px;
+        font-weight: bold;
+        width: 100%;
+        height: 33.33333%;
+    }
+
+    .address p {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .priceContainer {
+        font-weight: bold;
+    }
+
+    .price {
+        border: 2px solid black;
+        border-radius: 1em;
+        padding: 0.25em 0.5em;
+        font-size: 12.5px;
+    }
+
+    .viewContainer {
+        height: 100%;
+        width: 35%;
+    }
+
+    .viewButton {
+        text-decoration: none;
+        color: white;
+        border: 1px solid var(--var-colorPrimary);
+        background: var(--var-colorPrimary);
+        text-align: center;
+        font-weight: bold;
+        padding: 0.25em 0.675em;
+        transition: .5s;
+        border-radius: 0.33em;
+    }
+
+    .viewButton:hover {
+        color: white;
+    }
+}
+
+@media only screen and (min-width: 470px) {
+    .date,
+    .addres {
+        font-size: 20px;
+    }
+
+    .viewButton {
+        padding: 0.5em 1.35em;
+    }
+}
+
+@media only screen and (min-width: 701px) {
+    .date,
+    .addres {
+        font-size: 25px;
+    }
+
+    .viewButton {
+        padding: 1em 2.7em;
+    }
+}
+
+/*
+    Desktop view rules
+*/
+@media only screen and (min-width: 993px) {
+    #phoneView {
+        display: none;
+    }
+
+    #desktopView {
+        display: block;
+    }
+
+    .orderContainer {
+        width: 75vw;
+        background: rgb(238, 238, 238);
+        margin-left: 12.5vw;
+        margin-top: 5vh;
+    }
+
+    h1 {
+        padding: 0.5em 0.5em 0 0.5em;
+        margin: 0;
+        text-align: center;
+    }
+
+    .orderElementsContainer {
+        padding: 2em;
+    }
+
+    #titlesContainer {
+        height: 10vh;
+        background: rgb(49, 13, 13);
+        color: rgb(238, 238, 238);
+        margin-bottom: 2vh;
+        padding: 0 1vw;
+        display: flex;
+        align-items: center;
+    }
+
+    #titlesContainer > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 0.75vw;
+        font-size: 1.5vw;
+        font-weight: 500;
+        height: 100%;
+    }
+
+
+    #dateTitle {
+        width: 30%;
+        justify-content: start;
+    }
+
+    #addressTitle {
+        width: 32.5%;
+    }
+
+    #orderPriceTitle {
+        width: 25.5%;
+    }
+
+    .row {
+        height: 10vh;
+        width: 100%;
+        margin: 0;
+        padding: 0 1vw;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid grey;
+    }
+    
+    .row:last-child {
+        border-bottom: none;
+    }
+    
+    .dateContainer {
+        height: 100%;
+        width: 30%;
+        display: flex;
+        align-items: center;
+    }
+      
+    .addressContainer {
+        width: 32.5%;
+        height: 100%;
+        font-size: 1.25vw;
+    }
+
+    .orderPriceContainer {
+        height: 100%;
+        width: 25.5%;
+        font-weight: 500;
+        font-size: 20px;
+    }
+
+    .viewContainer {
+        width: 12%;
+        height: 80%;
+        color: var(--var-colorPrimary);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .viewButton {
+        text-decoration: none;
+        color: white;
+        border: 1px solid var(--var-colorPrimary);
+        background: var(--var-colorPrimary);
+        text-align: center;
+        font-weight: bold;
+        padding: 0.25em 0.675em;
+        transition: .5s;
+    }
+
+    .viewButton:hover {
+        color: white;
+    }
+}

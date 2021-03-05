@@ -1,0 +1,90 @@
+/*
+    Mobile, Tablet view rules
+*/
+@media only screen and (max-width: 992px) {
+
+    .detailsContainer,
+    .priceContainer {
+        width: 50%;
+    }
+
+    .foodName,
+    .restaurantName {
+        height: 50%;
+    }
+
+    .foodName {
+        font-weight: bold;
+        font-size: larger;
+    }
+
+    .restaurantName {
+        font-size: small;
+    }
+
+    .priceContainer {
+        border: thin solid red;
+    }
+
+    .foodPrice {
+        padding: 0.25em 0.5em;
+        margin: 0;
+        border: 2px solid black;
+        border-radius: 1em;
+        font-weight: bold;
+        font-size: large;
+    }
+
+    #orderDetailsContainer p {
+        padding: 0;
+        padding-bottom: 1vh;
+        font-size: large;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    #orderDetailsContainer {
+        width: 100%;
+    }
+
+    #innerContainer {
+        width: 80%;
+    }
+
+    #totalPriceContainer {
+        width: 50%;
+    }
+
+    #address,
+    #phoneNumber {
+        border: 1px solid grey;
+    }
+}
+
+@media only screen and (min-width: 470px) {
+    #innerContainer {
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 701px) {
+    #innerContainer {
+        width: 50%;
+    }
+}
+
+/*
+    Desktop view rules
+*/
+@media only screen and (min-width: 993px) {
+    #orderDetailsContainer,
+    #totalPriceContainer {
+        width: 50%;
+    }
+
+    #address,
+    #phoneNumber {
+        border: 1px solid grey;
+        text-align: center;
+    }
+}

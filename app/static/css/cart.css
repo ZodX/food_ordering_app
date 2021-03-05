@@ -160,9 +160,6 @@ body {
 
 }
 
-/*
-    Mobile, Tablet view rules
-*/
 @media only screen and (min-width: 470px) {
     .pictogram {
         width: 17.5vw;
@@ -179,9 +176,6 @@ body {
     }
 }
 
-/*
-    Mobile, Tablet view rules
-*/
 @media only screen and (min-width: 701px) {
     
     .pictogram {

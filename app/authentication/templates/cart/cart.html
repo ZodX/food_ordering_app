@@ -39,7 +39,7 @@
                 <div class="my-card summaryContainer my-flex">
                     <div class="orderDetailsContainer">
                         <p>Order details</p>
-                        <form action="" method="POST" id="form">
+                        <form action="" method="POST" id="form_phone">
                             {% csrf_token %}
                             {% for field in form %}
                                 <div class="mb-3">
@@ -47,12 +47,11 @@
                                 </div>
                             {% endfor %}
                         </form>
-                        
                     </div>
                 </div>
                 <div class="my-card my-flex">
                     <div id="orderButtonContainer" class="my-flex">
-                        <input type="submit" form="form" value="Place order" id="orderButton"></a>
+                        <input type="submit" form="form_phone" value="Place order" id="orderButton">
                     </div>
                     <div class="totalPriceContainer my-flex">
                         <div id="totalPrice">TOTAL: ${{ total_price }}</div>
@@ -114,12 +113,12 @@
                 </div>
                 <div id="summaryContainer">
                     <div id="orderButtonContainer" class="my-flex">
-                        <input type="submit" form="form" value="Place order" id="orderButton"></a>
+                        <input type="submit" form="form_desktop" value="Place order" id="orderButton">
                     </div>
                     <div id="orderDetailsContainer" class="my-flex">
                         <div id="innerContainer">
                             <p>Order details</p>
-                            <form action="" method="POST" id="form">
+                            <form method="POST" id="form_desktop">
                                 {% csrf_token %}
                                 {% for field in form %}
                                     <div class="mb-3">
@@ -157,7 +156,6 @@
         form_input_fields[7].placeholder='Address...'
         form_input_fields[6].setAttribute('class', 'form-input')
         form_input_fields[7].setAttribute('class', 'form-input')
-        console.log(form_input_fields.length)
     </script>
 
 {% endblock %}

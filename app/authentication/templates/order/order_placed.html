@@ -1,10 +1,71 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    <p>Thank you for using this website to order food!</p>
-    {% for order in orders_set %}
-        <h5>Order from {{order.order_date}} <a href="{% url 'order' order.order_counter %}" class="btn btn-primary">View</a></h5>
-    {% endfor %}
 
-    {% include 'accounts/footer.html' %}
+    <link rel="stylesheet" href="{% static '/css/order_placed.css' %}">
+
+    {% if order_counter > 0 %}
+        <div id="phoneView">
+            <div id="bodyContainer">
+                <h1>Previous orders</h1>
+                {% for order in orders_set %}
+                    <div class="my-card">
+                        <div class="detailsContainer">
+                            <div class="date my-flex">
+                                {{ order.date }}
+                            </div>
+                            <div class="address my-flex">
+                                <p>{{ order.address }}</p>
+                            </div>
+                            <div class="priceContainer my-flex">
+                                <div class="price">${{ order.total_price }}</div>
+                            </div>
+                        </div>
+                        <div class="viewContainer my-flex">
+                            <a class="viewButton" href="{% url 'order' order.order_counter %}">View</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% include 'accounts/footer.html' %}
+        </div>
+
+        <div id="desktopView">
+            <div class="orderContainer">
+                <h1>Previous orders</h1>
+                <div class="orderElementsContainer">
+                    <div id="titlesContainer">
+                        <div id="dateTitle">Date</div>
+                        <div id="addressTitle">Address</div>
+                        <div id="orderPriceTitle">Price</div>
+                    </div>
+                    {% for order in orders_set %}
+                        <div class="row">
+                            <div class="dateContainer">
+                                <h6 class="name">{{ order.date }}</h6>
+                            </div>
+                            <div class="addressContainer my-flex">
+                                {{ order.address }}
+                            </div>
+                            <div class="orderPriceContainer my-flex">
+                                ${{ order.total_price }}
+                            </div>
+                            <div class="viewContainer my-flex">
+                                <a class="viewButton" href="{% url 'order' order.order_counter %}">View</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% include 'accounts/footer.html' %}
+        </div>
+
+    {% else %}
+
+        <div id="bodyContainer" class="my-flex">
+            <h1>You have no previous orders</h1>
+        </div>
+    
+        {% include 'accounts/footer.html' %}
+    {% endif %}
 {% endblock %}

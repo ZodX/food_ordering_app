@@ -292,7 +292,7 @@ def foodToCart(request, pk):
 
     if found:
         amount = int(cart.amount) + 1
-        price = int(cart.sum_price) + int(food.price)
+        price = float(cart.sum_price) + float(food.price)
         form = CartForm(request.POST, instance = cart)
         fs = form.save(commit = False)
         fs.food = food
@@ -324,6 +324,7 @@ def cartPage(request):
     form = OrderForm()
 
     if request.method == 'POST':
+        print("PRESSED")
         form = OrderForm(request.POST)
         if len(users_orders) > 0:
             users_order_counter = max([int(order.order_counter) for order in users_orders])
@@ -384,15 +385,24 @@ def orderPlacedPage(request):
     order_counters = []
     for order in orders:
         if order.order_counter not in order_counters:
-            orders_set.append(order)
+            current_counter = order.order_counter
+            total_price = sum([float(o.sum_price) for o in orders if o.order_counter == current_counter])
+
+            orders_set.append({
+                'date': order.order_date,
+                'address': order.address,
+                'total_price': total_price,
+                'order_counter': order.order_counter
+            })
             order_counters.append(order.order_counter)
 
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
-
+    order_counter = len(orders)
     context = {
         'orders_set': orders_set, 
         'user_group': user_group,
-        "cart_counter": cart_counter
+        'cart_counter': cart_counter,
+        'order_counter': order_counter
     }
     return render(request, 'order/order_placed.html', context)
 
@@ -412,7 +422,7 @@ def orderPage(request, pk):
     order_records = Order.objects.filter(user_id = request.user.id)
     orders = [record for record in order_records if record.order_counter == pk]
     date = orders[0].order_date
-    total_price = sum([int(element.sum_price) for element in orders])
+    total_price = sum([float(element.sum_price) for element in orders])
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
 
     context = {

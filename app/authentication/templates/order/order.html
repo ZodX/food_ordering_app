@@ -1,13 +1,106 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-    <h5>Order from {{date}}</h5>
-    <p><b>Phone number:</b> {{phone_number}} <b>Address:</b> {{address}}</p>
-    {% for order in orders %}
-        {{order.food.name}} - 
-        {{order.amount}}db - 
-        {{order.sum_price}}Ft <br>
-    {% endfor %}
-    <p>Total: {{total_price}}Ft</p>
-    {% include 'accounts/footer.html' %}
+
+    <link rel="stylesheet" href="{% static '/css/cart.css' %}">
+    <link rel="stylesheet" href="{% static '/css/order.css' %}">
+
+        <div id="phoneView">
+            <div id="bodyContainer">
+                <h1>Order from {{date}}</h1>
+                {% for order in orders %}
+                    <div class="my-card">
+                        <div class="detailsContainer">
+                            <div class="foodName my-flex">{{ order.food.name }}</div>
+                            <div class="restaurantName my-flex">
+                                <p>${{ order.food.restaurant.name }}</p>
+                            </div>
+                        </div>
+                        <div class="priceContainer my-flex">
+                            <p class="foodPrice">${{ order.sum_price }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="my-card summaryContainer my-flex">
+                    <div id="orderDetailsContainer" class="my-flex">
+                        <div id="innerContainer">
+                            <p>Order details</p>
+                            <div class="mb-3">
+                                <div id="address">
+                                    {{ address }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div id="phoneNumber">
+                                    {{ phone_number }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-card my-flex">
+                    <div id="orderButtonContainer" class="my-flex">
+                    </div>
+                    <div class="totalPriceContainer my-flex">
+                        <div id="totalPrice">TOTAL: ${{ total_price }}</div>
+                    </div>
+                </div>
+            </div>
+            {% include 'accounts/footer.html' %}
+        </div>
+
+        <div id="desktopView">
+            <div class="cartContainer">
+                <h1>Order from {{date}}</h1>
+                <div class="cartElementsContainer">
+                    <div id="titlesContainer">
+                        <div id="imgPlaceholder"></div>
+                        <div id="nameTitle">Food name</div>
+                        <div id="unitPriceTitle">Unit price</div>
+                        <div id="qtyTitle">Qty</div>
+                        <div id="subtotalTitle">Subtotal</div>
+                    </div>
+                    {% for order in orders %}
+                        <div class="row">
+                            <div class="imgContainer"></div>
+                            <div class="contentContainer">
+                                <h4 class="name">{{ order.food.name }}</h4>
+                                <p class="description">{{ order.food.restaurant.name }}</p>
+                            </div>
+                            <div class="unitPriceContainer my-flex">
+                                ${{ order.food.price }}
+                            </div>
+                            <div class="qtyContainer my-flex">
+                                {{ order.amount }}pc
+                            </div>
+                            <div class="subtotalContainer my-flex">
+                                ${{ order.sum_price }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="summaryContainer">
+                    <div id="orderDetailsContainer" class="my-flex">
+                        <div id="innerContainer">
+                            <p>Order details</p>
+                            <div class="mb-2">
+                                <div id="address">
+                                    {{ address }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div id="phoneNumber">
+                                    {{ phone_number }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="totalPriceContainer" class="my-flex">
+                        Total: ${{ total_price }}
+                    </div>
+                </div>
+            </div>
+            {% include 'accounts/footer.html' %}
+        </div>
+
 {% endblock %}
