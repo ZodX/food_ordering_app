@@ -184,7 +184,7 @@ def restaurantDetailPage(request, pk):
             'users_restaurant': users_restaurant
         }
 
-    return render(request, 'restaurants/restaurant_form.html', context)
+    return render(request, 'restaurants/restaurant_detail.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allower_roles = ['restaurant'])
@@ -207,9 +207,13 @@ def addFoodPage(request, pk):
         form = FoodForm(request.POST)
         if form.is_valid():
             fs = form.save(commit = False)
-            fs.restaurant = restaurant
-            fs.save()
-            return redirect('restaurant', restaurant.id)
+            try:
+                float(fs.price)
+                fs.restaurant = restaurant
+                fs.save()
+                return redirect('restaurant', restaurant.id)
+            except: 
+                pass
     context = {
         'form': form,
         'user_group': user_group,
@@ -237,8 +241,14 @@ def modifyFoodPage(request, pk):
     if request.method == "POST":
         form = FoodForm(request.POST, instance = food)
         if form.is_valid():
-            form.save()
-            return redirect('restaurant', users_restaurant.id)
+            try:
+                fs = form.save(commit = False)
+                print('he', fs.price)
+                float(fs.price)
+                form.save()
+                return redirect('restaurant', users_restaurant.id)
+            except: 
+                pass
 
     context = {
         'form': form,
@@ -329,7 +339,6 @@ def cartPage(request):
     form = OrderForm()
 
     if request.method == 'POST':
-        print("PRESSED")
         form = OrderForm(request.POST)
         if len(users_orders) > 0:
             users_order_counter = max([int(order.order_counter) for order in users_orders])
