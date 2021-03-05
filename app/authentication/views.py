@@ -439,6 +439,8 @@ def orderPage(request, pk):
     user_group = str(request.user.groups.all()[0])
     order_records = Order.objects.filter(user_id = request.user.id)
     orders = [record for record in order_records if record.order_counter == pk]
+    for order in orders:
+        order.sum_price = round(float(order.sum_price), 2)
     date = orders[0].order_date
     total_price = sum([float(element.sum_price) for element in orders])
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])

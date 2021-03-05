@@ -48,10 +48,13 @@
                         </div>
                     </div>
                 {% endfor %}
-                {% if food_count > 0 %}
+                {% if food_count > 2 %}
                     {% include 'accounts/footer.html' %}
                 {% endif %}
             </div>
+            {% if 2 >= food_count %}
+                {% include 'accounts/footer.html' %}
+            {% endif %}
         </div>
         <div class="desktopView">
             {% if is_owner == True %}

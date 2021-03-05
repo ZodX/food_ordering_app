@@ -22,10 +22,6 @@
         font-size: small;
     }
 
-    .priceContainer {
-        border: thin solid red;
-    }
-
     .foodPrice {
         padding: 0.25em 0.5em;
         margin: 0;
@@ -57,6 +53,7 @@
 
     #address,
     #phoneNumber {
+        text-align-last: left;
         border: 1px solid grey;
     }
 }
@@ -85,6 +82,5 @@
     #address,
     #phoneNumber {
         border: 1px solid grey;
-        text-align: center;
     }
 }
