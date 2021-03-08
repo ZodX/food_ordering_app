@@ -32,11 +32,6 @@ Run the python virtual environment (Be aware of using `\` or `/` depending on yo
 $ env\Scripts\activate
 ```
 
-Install django with pip:
-```bash
-$ pip install django
-```
-
 Navigate to the `app` directory:
 ```bash
 $ cd app
