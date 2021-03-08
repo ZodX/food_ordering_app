@@ -21,12 +21,6 @@ This is a webapplication to order food from restaurants online using Python's dj
 
 ### Getting started
 
-Install python virtual environment:
-
-```bash
-$ python -m venv env
-```
-
 Run the python virtual environment (Be aware of using `\` or `/` depending on your OS):
 ```bash
 $ env\Scripts\activate
