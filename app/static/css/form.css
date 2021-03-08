@@ -70,12 +70,16 @@ form {
 */
 @media only screen and (max-width: 700px) {
     .form-input,
-    #submitButton {
+    #submitButton,
+    .warning,
+    .errorsContainer > .errorlist,
+    .error,
+    .success {
         width: 45vw;
     }
 
     .form-input:hover,
-    .form-input:focus {
+    .form-input:focus, {
         width: 46.5vw;
     }
 
@@ -90,7 +94,11 @@ form {
 */
 @media only screen and (min-width: 700px) {
     .form-input,
-    #submitButton {
+    #submitButton,
+    .warning,
+    .errorsContainer > .errorlist,
+    .error,
+    .success {
         width: 25vw;
     }
 
@@ -103,4 +111,27 @@ form {
     #submitButton:hover {
         width: 26vw;
     }
+}
+
+.errorsContainer > .errorlist,
+.error {
+    border: 3px solid red;
+    color: red;
+}
+
+.warning {
+    border: 3px solid rgb(206, 206, 0);
+    color: rgb(206, 206, 0);
+}
+
+.success {
+    border: 3px solid rgb(0, 194, 0);
+    color: rgb(0, 194, 0);
+}
+
+.error,
+.success,
+.warning {
+    margin: 2vh 0 0 0;
+    padding: 0;
 }

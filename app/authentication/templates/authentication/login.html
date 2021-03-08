@@ -17,9 +17,16 @@
                 <input type="submit" value="Log in" id="submitButton">
             </div>
 
-            {% for message in messages %}
-                <p class="message">{{ message }}</p>
-            {% endfor %}
+            <div class="messagesContainer my-flex">
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                        <p class="warning">{{ message }}</p>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <p class="success">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
 
             <div class="justify-content-center links">
                 <p>Don't have an account? Sign up <a href="{% url 'register' %}">here</a>.</p>

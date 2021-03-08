@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', loginPage, name="login"),
     path('register/', registerPage, name="register"),
+    path('activate/<uidb64>/<token>', VerificationView.as_view(), name = 'activate'),
     path('registerRestaurant/', registerRestaurantPage, name='registerRestaurant'),
     path('home/', homePage, name="home"),
     path('logout/', logoutUser, name="logout"),

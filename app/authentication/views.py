@@ -3,7 +3,16 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
+from django.core.mail import EmailMessage
+from django.views import View
+from django.urls import reverse
+
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+
+from utils import token_generator
 
 from .forms import *
 from .decorators import unauthenticated_user, allowed_users, admin_only
@@ -12,23 +21,71 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import *
 
-# Create your views here.
+from time import sleep
+
+class VerificationView(View):
+    def get(self, request, uidb64, token):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk = id)
+
+            if not token_generator.check_token(user, token):
+                return redirect('login' + '?message=' + 'User already activated')
+
+            if user.is_active:
+                return redirect('login')
+            
+            user.is_active = True
+            user.save()
+
+            messages.success(request, 'Account activated successfully')
+            return redirect('login')
+        except Exception as ex:
+            print("EXCEPTION OCCURED")
+            print(ex)
+            pass
+
+        return redirect('login')
 
 @unauthenticated_user
 def registerPage(request):
     form = CreateUserForm()
-
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password1']
+            
+            check_user = User.objects.filter(email=email)
+            if len(check_user) > 0:
+                messages.error(request, 'User with email already exists')
+                sleep(1)
+                return redirect('register')
 
+            user = User.objects.create_user(username = username, email = email)
+            user.set_password(password)
+            user.is_active = False
+            user.save()
             group = Group.objects.get(name = 'customer')
             user.groups.add(group)
 
-            messages.success(request, 'Account was created for ' + username)
+            email_subject = 'Activate your account'
 
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain
+            link = reverse('activate', kwargs = {'uidb64': uidb64, 'token': token_generator.make_token(user)})
+            activate_url = 'http://' + domain + link
+
+            email_body = 'Hi ' + user.username + '!\n\n' + 'Please use this link to verify your account:\n' + activate_url + '\n\nRegards,\nFoodStation team'
+            email = EmailMessage(
+                email_subject,
+                email_body,
+                'noreply@foodstation.com',
+                [email]
+            )
+            email.send(fail_silently=False)
+            messages.warning(request, 'Please verify your email...')
             return redirect('login')
 
     context = {'form': form}
@@ -41,14 +98,39 @@ def registerRestaurantPage(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password1']
 
+            check_user = User.objects.filter(email=email)
+            if len(check_user) > 0:
+                messages.error(request, 'User with email already exists')
+                sleep(1)
+                return redirect('register')
+
+            user = User.objects.create_user(username = username, email = email)
+            user.set_password(password)
+            user.is_active = False
+            user.save()
             group = Group.objects.get(name = 'restaurant')
             user.groups.add(group)
 
-            messages.success(request, 'Account was created for ' + username)
+            email_subject = 'Activate your account'
 
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain
+            link = reverse('activate', kwargs = {'uidb64': uidb64, 'token': token_generator.make_token(user)})
+            activate_url = 'http://' + domain + link
+
+            email_body = 'Hi ' + user.username + '!\n\n' + 'Please use this link to verify your account:\n' + activate_url + '\n\nRegards,\nFoodStation team'
+            email = EmailMessage(
+                email_subject,
+                email_body,
+                'noreply@foodstation.com',
+                [email]
+            )
+            email.send(fail_silently=False)
+            messages.warning(request, 'Please verify your email...')
             return redirect('login')
 
     context = {'form': form}

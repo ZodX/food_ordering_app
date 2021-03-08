@@ -22,11 +22,18 @@
             <div class="btnContainer my-flex">
                 <input type="submit" value="Register" id="submitButton">
             </div>
+            <div class="errorsContainer my-flex">
+                {{ form.errors }}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <p class="error">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
             <div class="my-flex justify-content-center links">
                 <p>Already have an account? Log in <a href="{% url 'login' %}">here</a>.</p>
             </div>
         </form>
-        {{ form.errors }}
     </div>
     {% include 'accounts/footer.html' %}
 
