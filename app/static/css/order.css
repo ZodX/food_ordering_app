@@ -52,7 +52,9 @@
     }
 
     #address,
-    #phoneNumber {
+    #phoneNumber,
+    #customer_name,
+    #description {
         text-align-last: left;
         border: 1px solid grey;
     }
@@ -60,13 +62,7 @@
 
 @media only screen and (min-width: 470px) {
     #innerContainer {
-        width: 60%;
-    }
-}
-
-@media only screen and (min-width: 701px) {
-    #innerContainer {
-        width: 50%;
+        width: 90%;
     }
 }
 
@@ -80,11 +76,17 @@
     }
 
     #address,
-    #phoneNumber {
+    #phoneNumber,
+    #customer_name,
+    #description {
         border: 1px solid grey;
     }
 
     .row {
         height: 25vh;
+    }
+
+    #innerContainer {
+        width: 60%;
     }
 }

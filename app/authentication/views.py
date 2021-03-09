@@ -445,31 +445,32 @@ def cartPage(request):
                 my_dict[element.food.restaurant.name] = []
                 my_dict[element.food.restaurant.name].append({
                     'food_name': element.food.name,
-                    'amount': element.amount
+                    'amount': element.amount,
+                    'sum_price': element.sum_price
                 })
             else:
                 my_dict[element.food.restaurant.name].append({
                     'food_name': element.food.name,
-                    'amount': element.amount
+                    'amount': element.amount,
+                    'sum_price': element.sum_price
                 })
         print(my_dict)
         for restaurant in my_dict:
-            print(restaurant)
+            orders_total_price = 0
             email_body = 'We recieved an order for the foods below:\n'
             for food in my_dict[restaurant]:
-                print(food, len(food))
-                email_body += '    - ' + food['food_name'] + ' (' + food['amount'] + ' piece)\n'
+                email_body += '    - ' + food['food_name'] + ' (' + food['amount'] + ' piece) ($' + food['sum_price'] + ')\n'
+                orders_total_price += float(food['sum_price'])
             email_body += '\nOrder details:\n'
             email_body += '    - Name: ' + fs.customer_name + '\n    - Customer\'s phone number: ' + fs.phone_number + '\n    - Delivery address: ' + fs.address
             if fs.description != None:
                 email_body += '\n    - Description: ' + fs.description
+            email_body += '\nTotal price: $' + str(round(orders_total_price, 2))
             email_body += '\n\nRegards,\nFoodStation Team'
 
             restaurant = Restaurant.objects.get(name = restaurant)
-            print(restaurant.owner_id)
             user = User.objects.get(id = restaurant.owner_id)
             email = user.email
-            print(email)
             email = EmailMessage(
                 email_subject,
                 email_body,
@@ -577,8 +578,10 @@ def orderPage(request, pk):
         'date': date, 
         'total_price': total_price,
         'user_group': user_group,
+        'customer_name': orders[0].customer_name,
         'phone_number': orders[0].phone_number,
         'address': orders[0].address,
+        'description': orders[0].description,
         "cart_counter": cart_counter
     }
     return render(request, 'order/order.html', context)

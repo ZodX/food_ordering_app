@@ -26,8 +26,8 @@
                         <div id="innerContainer">
                             <p>Order details</p>
                             <div class="mb-3">
-                                <div id="address">
-                                    Address: {{ address }}
+                                <div id="customer_name">
+                                    Customer name: {{ customer_name }}
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -35,6 +35,18 @@
                                     Phone number: {{ phone_number }}
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <div id="address">
+                                    Address: {{ address }}
+                                </div>
+                            </div>
+                            {% if description != None %}
+                                <div class="mb-3">
+                                    <div id="description">
+                                        Description: {{ description }}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -83,9 +95,9 @@
                     <div id="orderDetailsContainer" class="my-flex">
                         <div id="innerContainer">
                             <p>Order details</p>
-                            <div class="mb-2">
-                                <div id="address">
-                                    Address: {{ address }}
+                            <div class="mb-3">
+                                <div id="customer_name">
+                                    Customer name: {{ customer_name }}
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -93,6 +105,18 @@
                                     Phone number: {{ phone_number }}
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <div id="address">
+                                    Address: {{ address }}
+                                </div>
+                            </div>
+                            {% if description != None %}
+                                <div class="mb-3">
+                                    <div id="description">
+                                        Description: {{ description }}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div id="totalPriceContainer" class="my-flex">
