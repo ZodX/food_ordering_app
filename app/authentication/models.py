@@ -33,8 +33,10 @@ class Order(models.Model):
     food = models.ForeignKey(Food, null = True, on_delete = models.SET_NULL)
     amount = models.CharField(max_length = 200, null = True)
     sum_price = models.CharField(max_length = 200, null = True)
+    customer_name = models.CharField(max_length = 200, null = True)
     phone_number = models.CharField(max_length = 200, null = True)
     address = models.CharField(max_length = 200, null = True)
+    description = models.CharField(max_length = 200, blank = True, null = True)
     order_date = models.DateTimeField(auto_now_add = True, null = True)
 
     def __str__(self):

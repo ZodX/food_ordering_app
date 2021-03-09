@@ -19,6 +19,9 @@
 
             <div class="messagesContainer my-flex">
                 {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <p class="error">{{ message }}</p>
+                    {% endif %}
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
                         <p class="warning">{{ message }}</p>
                     {% endif %}

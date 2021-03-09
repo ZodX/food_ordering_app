@@ -148,7 +148,7 @@ def loginPage(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.info(request, 'Username or password is incorrect')     
+            messages.error(request, 'Username or password is incorrect')     
             
     context = {'show_logout': False}
     return render(request, 'authentication/login.html', context)
@@ -437,6 +437,46 @@ def cartPage(request):
             fs.sum_price = element.sum_price
             fs.save()
             element.delete()
+
+        email_subject = 'A new order has been recieved'
+        my_dict = {}
+        for element in cart_elements:
+            if element.food.restaurant.name not in my_dict.keys():
+                my_dict[element.food.restaurant.name] = []
+                my_dict[element.food.restaurant.name].append({
+                    'food_name': element.food.name,
+                    'amount': element.amount
+                })
+            else:
+                my_dict[element.food.restaurant.name].append({
+                    'food_name': element.food.name,
+                    'amount': element.amount
+                })
+        print(my_dict)
+        for restaurant in my_dict:
+            print(restaurant)
+            email_body = 'We recieved an order for the foods below:\n'
+            for food in my_dict[restaurant]:
+                print(food, len(food))
+                email_body += '    - ' + food['food_name'] + ' (' + food['amount'] + ' piece)\n'
+            email_body += '\nOrder details:\n'
+            email_body += '    - Name: ' + fs.customer_name + '\n    - Customer\'s phone number: ' + fs.phone_number + '\n    - Delivery address: ' + fs.address
+            if fs.description != None:
+                email_body += '\n    - Description: ' + fs.description
+            email_body += '\n\nRegards,\nFoodStation Team'
+
+            restaurant = Restaurant.objects.get(name = restaurant)
+            print(restaurant.owner_id)
+            user = User.objects.get(id = restaurant.owner_id)
+            email = user.email
+            print(email)
+            email = EmailMessage(
+                email_subject,
+                email_body,
+                'noreply@foodstation.com',
+                [email]
+            )
+            email.send(fail_silently=False)
         return redirect('order_placed')
     
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])

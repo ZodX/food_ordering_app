@@ -28,4 +28,4 @@ class CartForm(ModelForm):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ['phone_number', 'address']
+        fields = ['customer_name', 'phone_number', 'address', 'description']
