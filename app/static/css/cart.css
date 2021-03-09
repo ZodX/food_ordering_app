@@ -93,7 +93,7 @@ body {
         font-size: 20px;
     }
 
-    i {
+    a i {
         color: black;
         border: 2px solid black;
         border-radius: 10em;
