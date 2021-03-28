@@ -13,7 +13,7 @@ class CreateUserForm(UserCreationForm):
 class RestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['name', 'address']
+        fields = ['name', 'address', 'open_time', 'close_time']
 
 class FoodForm(ModelForm):
     class Meta:

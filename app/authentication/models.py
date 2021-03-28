@@ -4,6 +4,8 @@ class Restaurant(models.Model):
     name = models.CharField(max_length = 200, null = True)
     address = models.CharField(max_length = 200, null = True)
     owner_id = models.CharField(max_length = 200, null = True)
+    open_time = models.TimeField(null = True)
+    close_time = models.TimeField(null = True)
 
     def __str__(self):
         return self.name

@@ -7,7 +7,7 @@ body {
     min-height: 92vh;
 }
 
-#bodyContainer h1 {
+#bodyContainer h1.colored {
     color: var(--var-colorPrimary);
     margin-bottom: 5vh;
     text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;

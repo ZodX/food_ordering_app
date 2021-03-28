@@ -8,11 +8,32 @@
         <form action="" method="POST">
             <h1>Edit restaurant details</h1>
             {% csrf_token %}
-            {% for field in form %}
-                <div class="mb-3">
-                    {{ field }}
+            <div class="mb-3">
+                {{ form.name }}
+            </div>
+            <div class="mb-3">
+                {{ form.address }}
+            </div>
+            <div class="mb-3">
+                <div class="timeContainer">
+                    <div class="timeLabelContainer">
+                        <div>Open Time:</div>
+                    </div>
+                    <div class="timeInputContainer">
+                        {{ form.open_time }}
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
+            <div class="mb-3">
+                <div class="timeContainer">
+                    <div class="timeLabelContainer">
+                        <div>Close Time:</div>
+                    </div>
+                    <div class="timeInputContainer">
+                        {{ form.close_time }}
+                    </div>
+                </div>
+            </div>
             <div class="btnContainer my-flex">
                 <input type="submit" value="Submit" id="submitButton">
             </div>
@@ -24,8 +45,11 @@
         var form_input_fields = document.getElementsByTagName('input')
         form_input_fields[1].placeholder='Name...'
         form_input_fields[2].placeholder='Address...'
+
+        form_input_fields[3].type='time'
+        form_input_fields[4].type='time'
     
-        for (let i = 1; i < form_input_fields.length - 1; i++) {
+        for (let i = 1; i < form_input_fields.length - 3; i++) {
             form_input_fields[i].setAttribute('class', 'form-input')
         }
     </script>

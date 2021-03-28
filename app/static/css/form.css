@@ -79,7 +79,7 @@ form {
     }
 
     .form-input:hover,
-    .form-input:focus, {
+    .form-input:focus {
         width: 46.5vw;
     }
 
@@ -134,4 +134,38 @@ form {
 .warning {
     margin: 2vh 0 0 0;
     padding: 0;
+}
+
+.mb-3 {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeContainer {
+    display: flex;
+    
+    width: 85%;
+}
+
+.timeContainer > div {
+    width: 50%;
+}
+
+.timeLabelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 3vw;
+    color: var(--var-colorPrimary);
+    text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+}
+
+.timeInputContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 3vw;
 }

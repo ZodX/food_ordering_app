@@ -384,9 +384,14 @@ h3 {
     width: 100vw;
 }
 
-#titleSubContainer h4 {
+#titleSubContainer h4,
+h6 {
     color: var(--var-colorPrimary);
     text-align: center;
+}
+
+h6 {
+    margin-top: 1vh;
 }
 
 h1 {

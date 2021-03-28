@@ -22,6 +22,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 
 from time import sleep
+from datetime import datetime
 
 class VerificationView(View):
     def get(self, request, uidb64, token):
@@ -161,6 +162,9 @@ def logoutUser(request):
 def homePage(request):
     user_group = str(request.user.groups.all()[0])
     restaurants = Restaurant.objects.all()
+    current_time = datetime.now().time()
+    open_restaurants = [restaurant for restaurant in restaurants if (restaurant.open_time < current_time and restaurant.close_time > current_time)]
+    closed_restaurants = [restaurant for restaurant in restaurants if (restaurant.open_time > current_time or restaurant.close_time < current_time)]
     if user_group == 'restaurant':
         try:
             users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
@@ -171,8 +175,13 @@ def homePage(request):
 
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
 
+    print(restaurants)
+    print(open_restaurants)
+    print(closed_restaurants)
     context = {
-        'restaurants': restaurants, 
+        'restaurants': restaurants,
+        'open_restaurants': open_restaurants,
+        'closed_restaurants': closed_restaurants,
         'user_group': user_group, 
         'users_restaurant': users_restaurant,
         'cart_counter': cart_counter
@@ -195,10 +204,16 @@ def restaurantPage(request, pk):
     user_group = str(request.user.groups.all()[0])
     restaurant = Restaurant.objects.get(id = pk)
     available_foods = Food.objects.filter(restaurant = restaurant)
+    current_time = datetime.now().time()
     if (restaurant.owner_id == str(request.user.id)):
         is_owner = True
+        is_closed = False
     else:
         is_owner = False
+        if current_time > restaurant.open_time and current_time < restaurant.close_time:
+            is_closed = False
+        else:
+            is_closed = True
     if user_group == 'restaurant':
         try:
             users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
@@ -215,7 +230,8 @@ def restaurantPage(request, pk):
         'user_group': user_group,
         'users_restaurant': users_restaurant,
         'food_count': food_count,
-        'cart_counter': cart_counter
+        'cart_counter': cart_counter,
+        'is_closed': is_closed
     }
     return render(request, 'restaurants/restaurant.html', context)
 
@@ -368,8 +384,12 @@ def deleteFood(request, pk):
 @allowed_users(allower_roles = ['customer'])
 def foodToCart(request, pk):
     user_id = request.user.id
+    current_time = datetime.now().time()
     try:
         food = Food.objects.get(id = pk)
+        foods_restaurant = food.restaurant
+        if current_time < foods_restaurant.open_time or current_time > foods_restaurant.close_time:
+            return redirect('/')
     except ObjectDoesNotExist:
         print("Food DoesNotExist")
         return redirect('/')

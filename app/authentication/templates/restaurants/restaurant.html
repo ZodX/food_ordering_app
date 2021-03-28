@@ -8,6 +8,7 @@
             <div id="titleSubContainer">
                 <h1>{{ restaurant.name }}</h1>
                 <h4>{{ restaurant.address }}</h4>
+                <h6>Open hours: {{ restaurant.open_time }} - {{ restaurant.close_time }}</h6>
             </div>
         </div>
 
@@ -40,10 +41,12 @@
                                 </div>
                             {% endif %}
                             {% if user_group == 'customer' %}
-                                <form class="buttonContainer my-flex" method="POST" action="{% url 'food_to_cart' food.id %}">
-                                    {% csrf_token %}
-                                    <input class="btn my-flex" type="submit" value="Add to cart">
-                                </form>
+                                {% if is_closed == False %}
+                                    <form class="buttonContainer my-flex" method="POST" action="{% url 'food_to_cart' food.id %}">
+                                        {% csrf_token %}
+                                        <input class="btn my-flex" type="submit" value="Add to cart">
+                                    </form>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -93,10 +96,12 @@
                                     </div>
                                     {% if user_group == 'customer' %}
                                         <div class="buttonContainer my-flex">
+                                            {% if is_closed == False %}
                                             <form class="" method="POST" action="{% url 'food_to_cart' food.id %}">
                                                 {% csrf_token %}
                                                 <input class="input my-flex" type="submit" value="Add to cart">
                                             </form>
+                                            {% endif %}
                                         </div>
                                     {% endif %}
                                     {% if is_owner == True%}
