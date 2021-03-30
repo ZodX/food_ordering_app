@@ -15,7 +15,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from utils import token_generator
 
 from .forms import *
-from .decorators import unauthenticated_user, allowed_users, admin_only
+from .decorators import unauthenticated_user, allowed_users
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -89,7 +89,11 @@ def registerPage(request):
             messages.warning(request, 'Please verify your email...')
             return redirect('login')
 
-    context = {'form': form}
+    show_logout = False
+    context = {
+        'form': form,
+        'show_logout': show_logout
+    }
     return render(request, 'authentication/register.html', context)
 
 @unauthenticated_user
@@ -134,7 +138,11 @@ def registerRestaurantPage(request):
             messages.warning(request, 'Please verify your email...')
             return redirect('login')
 
-    context = {'form': form}
+    show_logout = False
+    context = {
+        'form': form,
+        'show_logout': show_logout
+    }
     return render(request, 'authentication/register.html', context)
 
 @unauthenticated_user
@@ -187,17 +195,6 @@ def homePage(request):
         'cart_counter': cart_counter
     }
     return render(request, 'authentication/index.html', context)
-
-@login_required(login_url='login')
-@admin_only
-def adminPage(request):
-    return render(request, 'accounts/admin.html')
-
-@login_required(login_url='login')
-def userPage(request):
-    user_group = str(request.user.groups.all()[0])
-    context = {'user_group': user_group}
-    return render(request, 'accounts/user.html', context)
 
 @login_required(login_url='login')
 def restaurantPage(request, pk):

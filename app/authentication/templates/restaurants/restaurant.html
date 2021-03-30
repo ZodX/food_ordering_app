@@ -1,4 +1,4 @@
-{% extends 'accounts/main.html' %}
+{% extends 'base/main.html' %}
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static '/css/restaurant.css' %}">
@@ -52,11 +52,11 @@
                     </div>
                 {% endfor %}
                 {% if food_count > 2 %}
-                    {% include 'accounts/footer.html' %}
+                    {% include 'base/footer.html' %}
                 {% endif %}
             </div>
             {% if 2 >= food_count %}
-                {% include 'accounts/footer.html' %}
+                {% include 'base/footer.html' %}
             {% endif %}
         </div>
         <div class="desktopView">
@@ -115,12 +115,12 @@
                     </div>
                 </div>
                 {% if food_count > 0 %}
-                    {% include 'accounts/footer.html' %}
+                    {% include 'base/footer.html' %}
                 {% endif %}
             </div>
         </div>
     </div>
     {% if food_count == 0 %}
-        {% include 'accounts/footer.html' %}
+        {% include 'base/footer.html' %}
     {% endif %}
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'accounts/main.html' %}
+{% extends 'base/main.html' %}
 {% load static %}
 {% block content %}
 
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            {% include 'accounts/footer.html' %}
+            {% include 'base/footer.html' %}
         </div>
 
         <div id="desktopView">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            {% include 'accounts/footer.html' %}
+            {% include 'base/footer.html' %}
         </div>
 
     {% else %}
@@ -142,7 +142,7 @@
             <h1>Your cart is empty</h1>
         </div>
     
-        {% include 'accounts/footer.html' %}
+        {% include 'base/footer.html' %}
     {% endif %}
 
     <script>
