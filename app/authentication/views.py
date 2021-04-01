@@ -171,8 +171,8 @@ def homePage(request):
     user_group = str(request.user.groups.all()[0])
     restaurants = Restaurant.objects.all()
     current_time = datetime.now().time()
-    open_restaurants = [restaurant for restaurant in restaurants if (restaurant.open_time < current_time and restaurant.close_time > current_time)]
-    closed_restaurants = [restaurant for restaurant in restaurants if (restaurant.open_time > current_time or restaurant.close_time < current_time)]
+    open_restaurants = [restaurant for restaurant in restaurants if ((restaurant.open_time < current_time and restaurant.close_time > current_time) or (restaurant.close_time < restaurant.open_time and restaurant.open_time < current_time))]
+    closed_restaurants = [restaurant for restaurant in restaurants if not ((restaurant.open_time < current_time and restaurant.close_time > current_time) or (restaurant.close_time < restaurant.open_time and restaurant.open_time < current_time))]
     if user_group == 'restaurant':
         try:
             users_restaurant = Restaurant.objects.get(owner_id = request.user.id)
@@ -182,10 +182,6 @@ def homePage(request):
         users_restaurant = None
 
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
-
-    print(restaurants)
-    print(open_restaurants)
-    print(closed_restaurants)
     context = {
         'restaurants': restaurants,
         'open_restaurants': open_restaurants,

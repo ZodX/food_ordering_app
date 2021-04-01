@@ -37,8 +37,11 @@
                                 <h4>{{ restaurant.name }}</h4>
                                 <p>{{ restaurant.address }}</p>
                             </div>
-                            <div class="buttonContainer my-flex">
-                                <h4 class="closedText">Closed</h4>
+                            <div class="restaurantInfo my-flex">
+                                <div class="infoContainer">
+                                    <h4 class="closedText">Closed</h4>
+                                    <p class="openHours">Opens at {{ restaurant.open_time }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
