@@ -31,6 +31,8 @@ h3 {
     font: 400 100px/1.3 'Arizonia', Helvetica, sans-serif;
 }
 
+
+
 /*
     Mobile, Tablet view rules
 */
@@ -475,4 +477,12 @@ h1 {
     .buttonContainer {
         width: 50%;
     }
+}
+
+.show {
+    display: flex;
+}
+
+.hide {
+    display: none;
 }

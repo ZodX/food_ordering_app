@@ -203,7 +203,7 @@ def restaurantPage(request, pk):
         is_closed = False
     else:
         is_owner = False
-        if current_time > restaurant.open_time and current_time < restaurant.close_time:
+        if (restaurant.open_time < current_time and restaurant.close_time > current_time) or (restaurant.close_time < restaurant.open_time and restaurant.open_time < current_time):
             is_closed = False
         else:
             is_closed = True
@@ -229,10 +229,9 @@ def restaurantPage(request, pk):
     return render(request, 'restaurants/restaurant.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['restaurant'])
+@allowed_users(allowed_roles = ['restaurant'])
 def restaurantDetailPage(request, pk):
-    if (int(request.user.id) != int(pk)): 
-        print('Incorrect id')
+    if (int(request.user.id) != int(pk)):
         return redirect('/')
 
     user_group = str(request.user.groups.all()[0])
@@ -259,7 +258,6 @@ def restaurantDetailPage(request, pk):
             'users_restaurant': users_restaurant
         }
     except ObjectDoesNotExist:
-        print('doesnt exist')
         form = RestaurantForm()
 
         if request.method == "POST":
@@ -278,7 +276,7 @@ def restaurantDetailPage(request, pk):
     return render(request, 'restaurants/restaurant_detail.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['restaurant'])
+@allowed_users(allowed_roles = ['restaurant'])
 def addFoodPage(request, pk):
     restaurant = Restaurant.objects.get(id = pk)
     if (int(request.user.id) != int(restaurant.owner_id)): 
@@ -293,7 +291,6 @@ def addFoodPage(request, pk):
 
     form = FoodForm()
 
-    print(users_restaurant)
     if request.method == 'POST':
         form = FoodForm(request.POST)
         if form.is_valid():
@@ -313,11 +310,10 @@ def addFoodPage(request, pk):
     return render(request, 'foods/add_food_form.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['restaurant'])
+@allowed_users(allowed_roles = ['restaurant'])
 def modifyFoodPage(request, pk):
     food = Food.objects.get(id = pk)
-    if (int(request.user.id) != int(food.restaurant.owner_id)): 
-        print('Incorrect id')
+    if (int(request.user.id) != int(food.restaurant.owner_id)):
         return redirect('/')
 
     user_group = str(request.user.groups.all()[0])
@@ -334,7 +330,6 @@ def modifyFoodPage(request, pk):
         if form.is_valid():
             try:
                 fs = form.save(commit = False)
-                print('he', fs.price)
                 float(fs.price)
                 form.save()
                 return redirect('restaurant', users_restaurant.id)
@@ -349,7 +344,7 @@ def modifyFoodPage(request, pk):
     return render(request, 'foods/modify_food_form.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['restaurant'])
+@allowed_users(allowed_roles = ['restaurant'])
 def deleteFood(request, pk):
     food = Food.objects.get(id = pk)
     if (int(request.user.id) != int(food.restaurant.owner_id)): 
@@ -364,6 +359,8 @@ def deleteFood(request, pk):
             users_restaurant = None
 
     if request.method == "POST":
+        for cart in Cart.objects.filter(food = food):
+            cart.delete()
         food.delete()
         return redirect('restaurant', users_restaurant.id)
 
@@ -374,14 +371,14 @@ def deleteFood(request, pk):
     return render(request, 'foods/delete_food.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['customer'])
+@allowed_users(allowed_roles = ['customer'])
 def foodToCart(request, pk):
     user_id = request.user.id
     current_time = datetime.now().time()
     try:
         food = Food.objects.get(id = pk)
         foods_restaurant = food.restaurant
-        if current_time < foods_restaurant.open_time or current_time > foods_restaurant.close_time:
+        if not (foods_restaurant.open_time < current_time and foods_restaurant.close_time > current_time) or (foods_restaurant.close_time < foods_restaurant.open_time and foods_restaurant.open_time < current_time):
             return redirect('/')
     except ObjectDoesNotExist:
         print("Food DoesNotExist")
@@ -420,7 +417,7 @@ def foodToCart(request, pk):
     return redirect('restaurant', food.restaurant.id)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['customer'])
+@allowed_users(allowed_roles = ['customer'])
 def cartPage(request):
     user_id = request.user.id
     user_group = str(request.user.groups.all()[0])
@@ -467,7 +464,6 @@ def cartPage(request):
                     'amount': element.amount,
                     'sum_price': element.sum_price
                 })
-        print(my_dict)
         for restaurant in my_dict:
             orders_total_price = 0
             email_body = 'We recieved an order for the foods below:\n'
@@ -504,7 +500,7 @@ def cartPage(request):
     return render(request, 'cart/cart.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['customer'])
+@allowed_users(allowed_roles = ['customer'])
 def manageCart(request, pk):
     cart = Cart.objects.get(id = pk)
     if (int(request.user.id) != int(cart.user_id)): 
@@ -531,7 +527,7 @@ def manageCart(request, pk):
     return redirect('cart')
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['customer'])
+@allowed_users(allowed_roles = ['customer'])
 def orderPlacedPage(request):
     user_group = str(request.user.groups.all()[0])
     orders = Order.objects.filter(user_id = request.user.id)
@@ -562,7 +558,7 @@ def orderPlacedPage(request):
     return render(request, 'order/order_placed.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allower_roles = ['customer'])
+@allowed_users(allowed_roles = ['customer'])
 def orderPage(request, pk):
     users_orders = Order.objects.filter(user_id = request.user.id)
     if len(users_orders) > 0:

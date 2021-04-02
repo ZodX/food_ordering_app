@@ -41,12 +41,17 @@
                                 </div>
                             {% endif %}
                             {% if user_group == 'customer' %}
-                                {% if is_closed == False %}
-                                    <form class="buttonContainer my-flex" method="POST" action="{% url 'food_to_cart' food.id %}">
-                                        {% csrf_token %}
-                                        <input class="btn my-flex" type="submit" value="Add to cart">
-                                    </form>
-                                {% endif %}
+                            {% if is_closed == False %}
+                            <form  method="POST" action="{% url 'food_to_cart' food.id %}">
+                                {% csrf_token %}
+                                <input class="input my-flex show" type="submit" value="Add to cart">
+                                </form>
+                                {% else %}
+                                <form method="POST" action="{% url 'food_to_cart' food.id %}">
+                                    {% csrf_token %}
+                                    <input class="input my-flex hide" type="submit" value="Add to cart">
+                                </form>
+                            {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -97,9 +102,14 @@
                                     {% if user_group == 'customer' %}
                                         <div class="buttonContainer my-flex">
                                             {% if is_closed == False %}
-                                            <form class="" method="POST" action="{% url 'food_to_cart' food.id %}">
+                                            <form  method="POST" action="{% url 'food_to_cart' food.id %}">
                                                 {% csrf_token %}
-                                                <input class="input my-flex" type="submit" value="Add to cart">
+                                                <input class="input my-flex show" type="submit" value="Add to cart">
+                                            </form>
+                                            {% else %}
+                                            <form method="POST" action="{% url 'food_to_cart' food.id %}">
+                                                {% csrf_token %}
+                                                <input class="input my-flex hide" type="submit" value="Add to cart">
                                             </form>
                                             {% endif %}
                                         </div>
