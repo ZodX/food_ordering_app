@@ -378,7 +378,7 @@ def foodToCart(request, pk):
     try:
         food = Food.objects.get(id = pk)
         foods_restaurant = food.restaurant
-        if not (foods_restaurant.open_time < current_time and foods_restaurant.close_time > current_time) or (foods_restaurant.close_time < foods_restaurant.open_time and foods_restaurant.open_time < current_time):
+        if not ((foods_restaurant.open_time < current_time and foods_restaurant.close_time > current_time) or (foods_restaurant.close_time < foods_restaurant.open_time and foods_restaurant.open_time < current_time)):
             return redirect('/')
     except ObjectDoesNotExist:
         print("Food DoesNotExist")
@@ -424,6 +424,14 @@ def cartPage(request):
     cart_elements = Cart.objects.filter(user_id = user_id)
     users_orders = Order.objects.filter(user_id = user_id)
     total_price = round(sum([float(element.sum_price) for element in cart_elements]), 2)
+
+    current_time = datetime.now().time()
+    reload_cart_elements = False
+    for element in cart_elements:
+        if not ((element.food.restaurant.open_time < current_time and element.food.restaurant.close_time > current_time) or (element.food.restaurant.close_time < element.food.restaurant.open_time and element.food.restaurant.open_time < current_time)):
+            element.delete()
+            reload_cart_elements = True
+    cart_elements = Cart.objects.filter(user_id = user_id)
 
     if total_price - round(total_price, 0) == 0:
         total_price = int(total_price)
