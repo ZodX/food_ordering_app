@@ -431,7 +431,8 @@ def cartPage(request):
         if not ((element.food.restaurant.open_time < current_time and element.food.restaurant.close_time > current_time) or (element.food.restaurant.close_time < element.food.restaurant.open_time and element.food.restaurant.open_time < current_time)):
             element.delete()
             reload_cart_elements = True
-    cart_elements = Cart.objects.filter(user_id = user_id)
+    if reload_cart_elements:
+        cart_elements = Cart.objects.filter(user_id = user_id)
 
     if total_price - round(total_price, 0) == 0:
         total_price = int(total_price)
