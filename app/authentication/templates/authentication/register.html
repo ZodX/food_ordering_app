@@ -7,27 +7,17 @@
         <form method="POST">
             <h1>Register</h1>
             {% csrf_token %}
-            <div class="mb-3">
-                {{ form.username }}
-            </div>
-            <div class="mb-3">
-                {{ form.email }}
-            </div>
-            <div class="mb-3">
-                {{ form.password1 }}
-            </div>
-            <div class="mb-3">
-                {{ form.password2 }}
-            </div>
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field }}
+                </div>
+            {% endfor %}
             <div class="btnContainer my-flex">
                 <input type="submit" value="Register" id="submitButton">
             </div>
-            <div class="errorsContainer my-flex">
-                {{ form.errors }}
-                {% for message in messages %}
-                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                        <p class="error">{{ message }}</p>
-                    {% endif %}
+            <div class="errorsContainer">
+                {% for field, error in form.errors.items %}
+                    <p>{{ error }}</p>
                 {% endfor %}
             </div>
             <div class="my-flex justify-content-center links">
