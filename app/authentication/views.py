@@ -183,7 +183,6 @@ def homePage(request):
 
     cart_counter = sum([int(element.amount) for element in Cart.objects.filter(user_id = request.user.id)])
     context = {
-        'restaurants': restaurants,
         'open_restaurants': open_restaurants,
         'closed_restaurants': closed_restaurants,
         'user_group': user_group, 
