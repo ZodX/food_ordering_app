@@ -42,7 +42,7 @@ class VerificationView(View):
             messages.success(request, 'Account activated successfully')
             return redirect('login')
         except Exception as ex:
-            print("EXCEPTION OCCURED")
+            print("EXCEPTION OCCURED:")
             print(ex)
             pass
 
@@ -347,7 +347,6 @@ def modifyFoodPage(request, pk):
 def deleteFood(request, pk):
     food = Food.objects.get(id = pk)
     if (int(request.user.id) != int(food.restaurant.owner_id)): 
-        print('Incorrect id')
         return redirect('/')
 
     user_group = str(request.user.groups.all()[0])
@@ -380,7 +379,6 @@ def foodToCart(request, pk):
         if not ((foods_restaurant.open_time < current_time and foods_restaurant.close_time > current_time) or (foods_restaurant.close_time < foods_restaurant.open_time and foods_restaurant.open_time < current_time)):
             return redirect('/')
     except ObjectDoesNotExist:
-        print("Food DoesNotExist")
         return redirect('/')
 
     carts = Cart.objects.filter(user_id = user_id)
@@ -404,7 +402,6 @@ def foodToCart(request, pk):
         fs.sum_price = price
         fs.save()
     else:
-        print("Cart DoesNotExist")
         form = CartForm(request.POST)
         fs = form.save(commit = False)
         fs.food = food
@@ -512,7 +509,6 @@ def cartPage(request):
 def manageCart(request, pk):
     cart = Cart.objects.get(id = pk)
     if (int(request.user.id) != int(cart.user_id)): 
-        print('Incorrect id')
         return redirect('/')
 
     action = request.GET.get("action")
