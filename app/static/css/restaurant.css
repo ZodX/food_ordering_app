@@ -173,16 +173,16 @@ h3 {
     Desktop view rules
 */
 @media only screen and (min-width: 992px) {
-    #bodyContainer {
-        height: 92vh;
-    }
-
     .phoneView {
         display: none;
     }
 
     .desktopView {
         display: block;
+    }
+    
+    #bodyContainer {
+        height: 92vh;
     }
 
     #subtitleContainer {
