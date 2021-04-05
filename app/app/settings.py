@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'pf)xyyxey99uc-^t=9vftoe41jf@zhxd(tlmmh69ookd031e%h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://foodstation-demo.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition
