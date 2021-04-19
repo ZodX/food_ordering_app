@@ -99,8 +99,9 @@
                                             <b>Price:</b><div class="colored price"><b>${{ food.price }}</b></div>
                                         </p>
                                     </div>
-                                    {% if user_group == 'customer' %}
-                                        <div class="buttonContainer my-flex">
+                                    <div class="buttonContainer my-flex">
+                                        {% if user_group == 'customer' %}
+                                        
                                             {% if is_closed == False %}
                                             <form  method="POST" action="{% url 'food_to_cart' food.id %}">
                                                 {% csrf_token %}
@@ -112,8 +113,9 @@
                                                 <input class="input my-flex hide" type="submit" value="Add to cart">
                                             </form>
                                             {% endif %}
-                                        </div>
-                                    {% endif %}
+                                            
+                                        {% endif %}
+                                    </div>
                                     {% if is_owner == True%}
                                         <div class="cardButtonsContainer my-flex">
                                             <a class="btn modifyButton" href="{% url 'modify_food_form' food.id %}"><b>Modify</b></a>
