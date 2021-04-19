@@ -31,9 +31,14 @@ Navigate to the `app` directory:
 $ cd app
 ```
 
+To get the database set up and the sample data I provide for the app run:
+```bash
+$ python3 manage.py migrate
+```
+
 Run the server (pass `runserver` to `manage.py` as a command line argument):
 ```bash
-$ python manage.py runserver
+$ python3 manage.py runserver
 ```
 
 > NOTE: The server will run at: http://127.0.0.1:8000
